@@ -15,38 +15,43 @@ const credits = [
   {
     name: "Rain",
     author: "StockSnap",
-    url: "https://pixabay.com/images/id-2590618",
+    url: "https://pixabay.com/images/id-2590618"
   },
   {
     name: "Clear",
     author: "cegoh",
-    url: "https://pixabay.com/images/id-3184798",
+    url: "https://pixabay.com/images/id-3184798"
   },
   {
     name: "Thunder",
     author: "Free-Photos",
-    url: "https://pixabay.com/images/id-1082080",
+    url: "https://pixabay.com/images/id-1082080"
   },
   {
     name: "Snow",
     author: "Free-Photos",
-    url: "https://pixabay.com/images/id-1209401",
+    url: "https://pixabay.com/images/id-1209401"
   },
   {
     name: "Fog",
     author: "StockSnap",
-    url: "https://pixabay.com/images/id-2617838",
+    url: "https://pixabay.com/images/id-2617838"
   },
   {
     name: "Cloudy",
     author: "waquitar",
-    url: "https://pixabay.com/images/id-1571775",
+    url: "https://pixabay.com/images/id-1571775"
   },
   {
     name: "Typhoon",
     author: "WikiImages",
-    url: "https://pixabay.com/images/id-62957",
+    url: "https://pixabay.com/images/id-62957"
   },
+  {
+    name: "sky",
+    author: "Engin_Akyurt",
+    url: "https://pixabay.com/images/id-3052118/"
+  }
 ];
 
 const CreditScreen = () => {

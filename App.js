@@ -3,6 +3,7 @@ import { Provider } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { AppearanceProvider } from "react-native-appearance";
 import { Feather } from "@expo/vector-icons";
 
 // global state
@@ -14,6 +15,7 @@ import IntroScreen from "./screens/IntroScreen";
 import HomeScreen from "./screens/HomeScreen";
 import SettingScreen from "./screens/SettingScreen";
 import CreditScreen from "./screens/CreditScreen";
+import TabBar from "./components/TabBar";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -25,7 +27,7 @@ const Home = () => {
         name="Home"
         component={HomeScreen}
         options={{
-          headerShown: false,
+          headerShown: false
         }}
       />
     </Stack.Navigator>
@@ -34,44 +36,17 @@ const Home = () => {
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <Tab.Navigator
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ focused, color, size }) => {
-              let iconName;
-
-              if (route.name === "Home") {
-                iconName = "home";
-              } else if (route.name === "Setting") {
-                iconName = "settings";
-              } else {
-                iconName = "info";
-              }
-
-              return (
-                <Feather
-                  name={iconName}
-                  size={20}
-                  color={focused ? "#fff" : "#ccc"}
-                />
-              );
-            },
-          })}
-          tabBarOptions={{
-            tabStyle: {
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
-            },
-            activeTintColor: "#fff",
-            inactiveTintColor: "#ccc",
-          }}
-        >
-          <Tab.Screen name="Home" component={Home} />
-          <Tab.Screen name="Setting" component={SettingScreen} />
-          <Tab.Screen name="Credit" component={CreditScreen} />
-        </Tab.Navigator>
-      </NavigationContainer>
-    </Provider>
+    <AppearanceProvider>
+      <Provider store={store}>
+        <NavigationContainer>
+          <Tab.Navigator tabBar={props => <TabBar {...props} />}>
+            <Tab.Screen name="Home" component={Home} />
+            <Tab.Screen name="Setting" component={SettingScreen} />
+            <Tab.Screen name="Credit" component={CreditScreen} />
+          </Tab.Navigator>
+        </NavigationContainer>
+      </Provider>
+    </AppearanceProvider>
   );
 };
 
