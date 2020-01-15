@@ -46,11 +46,29 @@ const toggleTheme = (
   }
 };
 
+const favoritesReducer = (
+  state = [
+    { city: "Taipei", ID: 123 },
+    { city: "New Taipei City", ID: 456 }
+  ],
+  action
+) => {
+  switch (action.type) {
+    case "ADD_FAVORITE":
+      return [...state, action.payload];
+    case "REMOVE_FAVORITE":
+      return state.filter(city => city.ID !== action.payload.ID);
+    default:
+      return state;
+  }
+};
+
 const store = createStore(
   combineReducers({
     theme: toggleTheme,
     counter: counterReducer,
-    bool: flipBoolen
+    bool: flipBoolen,
+    favorites: favoritesReducer
   })
 );
 

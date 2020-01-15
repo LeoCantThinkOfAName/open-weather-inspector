@@ -7,7 +7,7 @@ import styles from "../styles/main";
 
 const TabBar = ({ state, descriptors, navigation }) => {
   return (
-    <View style={styles.tabbar}>
+    <View style={styles.tabBar}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
@@ -30,15 +30,41 @@ const TabBar = ({ state, descriptors, navigation }) => {
           }
         };
 
+        const onPress = () => {
+          const event = navigation.emit({
+            type: "tabPress",
+            target: route.key
+          });
+
+          if (!isFocused && !event.defaultPrevented) {
+            navigation.navigate(route.name);
+          }
+        };
+
+        const onLongPress = () => {
+          navigation.emit({
+            type: "tabLongPress",
+            target: route.key
+          });
+        };
+
         return (
-          <View key={index}>
-            <TouchableOpacity>
+          <View key={index} style={styles.tabBarItem}>
+            <TouchableOpacity
+              accessibilityRole="button"
+              accessibilityStates={isFocused ? ["selected"] : []}
+              accessibilityLabel={options.tabBarAccessibilityLabel}
+              testID={options.tabBarTestID}
+              onPress={onPress}
+              onLongPress={onLongPress}
+              style={styles.tabBarButton}
+            >
               <Feather
                 name={icon(label)}
                 size={20}
-                color={isFocused ? "#fff" : "#ccc"}
+                color={isFocused ? "#fff" : "#999"}
               />
-              <Text style={{ color: isFocused ? "#fff" : "#ccc" }}>
+              <Text style={{ color: isFocused ? "#fff" : "#999" }}>
                 {label}
               </Text>
             </TouchableOpacity>

@@ -1,8 +1,11 @@
 import React from "react";
-import { View, Text, Linking, ScrollView } from "react-native";
+import { View, ScrollView } from "react-native";
 
 // components
 import CreditItem from "../components/CreditItem";
+import Background from "../components/Background";
+import ThemeText from "../components/ThemeText";
+import Wrapper from "../components/Wrapper";
 
 // svg
 import Logo from "../assets/logo-single.svg";
@@ -56,25 +59,30 @@ const credits = [
 
 const CreditScreen = () => {
   return (
-    <View style={styles.container}>
-      <Logo height={200} width={200} />
-      <Text>Weather Inspector is a Harvard CS50 Mobile Project</Text>
-      <Text>
-        Made By{" "}
-        <Text
-          style={styles.link}
-          onPress={() => openLink("https://google.com")}
-        >
-          LCTOAN.
-        </Text>
-      </Text>
-      <Text style={styles.heading}>Images:</Text>
-      <ScrollView style={{ maxHeight: 150 }}>
-        {credits.map(credit => (
-          <CreditItem credit={credit} key={credit.url} />
-        ))}
-      </ScrollView>
-    </View>
+    <Wrapper>
+      <Background source={require("../assets/sky.jpg")} />
+      <View style={styles.container}>
+        <Logo height={200} width={200} />
+        <ThemeText>
+          Weather Inspector is a Harvard CS50 Mobile Project
+        </ThemeText>
+        <ThemeText>
+          Made By{" "}
+          <ThemeText
+            style={styles.link}
+            onPress={() => openLink("https://google.com")}
+          >
+            LCTOAN.
+          </ThemeText>
+        </ThemeText>
+        <ThemeText style={styles.heading}>Images:</ThemeText>
+        <ScrollView style={styles.listWrapper}>
+          {credits.map(credit => (
+            <CreditItem credit={credit} key={credit.url} />
+          ))}
+        </ScrollView>
+      </View>
+    </Wrapper>
   );
 };
 

@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, Animated } from "react-native";
+import { View, TouchableOpacity, Animated } from "react-native";
 import { useSelector } from "react-redux";
+
+// components
+import ThemeText from "./ThemeText";
 
 // styles
 import styles from "../styles/main";
@@ -31,9 +34,9 @@ const Toggler = ({
   return (
     <View style={styles.toggler}>
       <View style={styles.togglerWrapper}>
-        <Text style={[styles.togglerLabel, { color: theme.black }]}>
+        <ThemeText style={[styles.togglerLabel, { color: theme.black }]}>
           {label}
-        </Text>
+        </ThemeText>
         <TouchableOpacity
           style={[
             styles.togglerButton,
@@ -52,9 +55,9 @@ const Toggler = ({
           ></Animated.View>
         </TouchableOpacity>
       </View>
-      <Text style={[styles.togglerDescription, { color: theme.black }]}>
+      <ThemeText style={[styles.togglerDescription, { color: theme.black }]}>
         {description}
-      </Text>
+      </ThemeText>
     </View>
   );
 };

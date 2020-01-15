@@ -1,11 +1,13 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { useSelector } from "react-redux";
 
 // components
 import Wrapper from "../components/Wrapper";
 import Toggler from "../components/Toggler";
 import CheckBox from "../components/CheckBox";
+import Background from "../components/Background";
+import ThemeText from "../components/ThemeText";
 
 // styles
 import styles from "../styles/main";
@@ -15,8 +17,11 @@ const SettingScreen = () => {
 
   return (
     <View style={styles.container}>
+      <Background source={require("../assets/sky.jpg")} />
       <Wrapper>
-        <Text style={[styles.heading, { color: theme.black }]}>Setting</Text>
+        <ThemeText style={[styles.heading, { color: theme.black }]}>
+          Setting
+        </ThemeText>
         <View style={styles.listWrapper}>
           <View style={[styles.listItem, { borderBottomColor: theme.black }]}>
             <Toggler
