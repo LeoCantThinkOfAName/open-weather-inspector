@@ -48,8 +48,10 @@ const toggleTheme = (
 
 const favoritesReducer = (
   state = [
-    { city: "Taipei", ID: 123 },
-    { city: "New Taipei City", ID: 456 }
+    { city: "Taipei", id: 2172797 },
+    { city: "New Taipei City", id: 456 },
+    { city: "Taichung", id: 567 },
+    { city: "Tainan", id: 678 }
   ],
   action
 ) => {

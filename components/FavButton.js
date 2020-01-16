@@ -1,31 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { TouchableOpacity } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 
 // styles
 import themeVar from "../styles/variables";
+import styles from "../styles/main";
 
-const FavButton = ({ city = { city: null, ID: null } }) => {
+const FavButton = ({ route }) => {
   const { favorites } = useSelector(state => state);
   const { theme } = useSelector(state => state);
   const dispatch = useDispatch();
-  const faved = favorites.find(fav => fav.ID === city.ID);
+  const faved = favorites.find(fav => fav.id === route.params.id)
+    ? true
+    : false;
+  const [localFav, setLocalFav] = useState(faved);
 
   const handlePress = () => {
-    if (faved) {
-      dispatch({ type: "REMOVE_FAVORITE", payload: city });
+    if (localFav) {
+      setLocalFav(false);
     } else {
-      dispatch({ type: "ADD_FAVORITE", payload: city });
+      setLocalFav(true);
+
+      if (!faved) {
+        dispatch({ type: "ADD_FAVORITE", payload: city });
+      }
     }
   };
 
+  useEffect(() => {
+    // return () => dispatch({ type: "REMOVE_FAVORITE", payload: city });
+  }, []);
+
   return (
-    <TouchableOpacity style={{ height: 100, width: 100 }} onPress={handlePress}>
+    <TouchableOpacity style={styles.favButton} onPress={handlePress}>
       <FontAwesome
-        size={30}
-        color={faved ? themeVar.red : theme.black}
-        name={faved ? "heart" : "heart-o"}
+        size={25}
+        color={localFav ? themeVar.red : theme.black}
+        name={localFav ? "heart" : "heart-o"}
       />
     </TouchableOpacity>
   );

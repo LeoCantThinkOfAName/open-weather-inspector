@@ -6,12 +6,13 @@ import theme from "./variables";
 import header from "./header";
 import inputs from "./inputs";
 import tabbar from "./tabbar";
+import drawer from "./drawer";
 
 const styles = StyleSheet.create({
   heading: {
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: "700",
-    marginVertical: 8
+    marginHorizontal: 10
   },
   background: {
     alignItems: "center",
@@ -53,7 +54,14 @@ const styles = StyleSheet.create({
   wrapper: {
     alignSelf: "stretch",
     flex: 1,
+    paddingBottom: 100,
     paddingHorizontal: 20
+  },
+  mainArea: {
+    alignItems: "center",
+    alignSelf: "stretch",
+    justifyContent: "space-between",
+    flex: 1
   },
   listWrapper: {
     alignSelf: "stretch"
@@ -80,7 +88,8 @@ const styles = StyleSheet.create({
   },
   ...header,
   ...tabbar,
-  ...inputs
+  ...inputs,
+  ...drawer
 });
 
 export default styles;

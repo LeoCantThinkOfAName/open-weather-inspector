@@ -26,26 +26,17 @@ const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
 const Home = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          headerShown: false
-        }}
-      />
-    </Stack.Navigator>
-  );
-};
-
-const HomeDrawer = () => {
   const { theme } = useSelector(state => state);
   const { favorites } = useSelector(state => state);
 
   return (
     <Drawer.Navigator
       initialRouteName={favorites[0].city}
+      drawerContentOptions={{
+        itemStyle: {
+          margin: 0
+        }
+      }}
       drawerContent={CustomDrawer}
       drawerStyle={{
         backgroundColor: theme.white,
@@ -55,8 +46,11 @@ const HomeDrawer = () => {
       {favorites.map(favorite => (
         <Drawer.Screen
           name={favorite.city}
-          component={Home}
-          key={favorite.ID}
+          component={HomeScreen}
+          key={favorite.id}
+          initialParams={{
+            id: favorite.id
+          }}
         />
       ))}
     </Drawer.Navigator>
@@ -69,7 +63,7 @@ const App = () => {
       <Provider store={store}>
         <NavigationContainer>
           <Tab.Navigator tabBar={props => <TabBar {...props} />}>
-            <Tab.Screen name="Home" component={HomeDrawer} />
+            <Tab.Screen name="Home" component={Home} />
             <Tab.Screen name="Setting" component={SettingScreen} />
             <Tab.Screen name="Credit" component={CreditScreen} />
           </Tab.Navigator>
