@@ -1,7 +1,6 @@
 import React from "react";
 import { Provider, useSelector } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AppearanceProvider } from "react-native-appearance";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -21,7 +20,6 @@ import CustomDrawer from "./components/CustomDrawer";
 // styles
 import styles from "./styles/main";
 
-const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -34,13 +32,13 @@ const Home = () => {
       initialRouteName={favorites[0].city}
       drawerContentOptions={{
         itemStyle: {
-          margin: 0
-        }
+          margin: 0,
+        },
       }}
       drawerContent={CustomDrawer}
       drawerStyle={{
         backgroundColor: theme.white,
-        padding: 0
+        padding: 0,
       }}
     >
       {favorites.map(favorite => (
@@ -49,7 +47,7 @@ const Home = () => {
           component={HomeScreen}
           key={favorite.id}
           initialParams={{
-            id: favorite.id
+            id: favorite.id,
           }}
         />
       ))}

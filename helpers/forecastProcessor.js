@@ -2,26 +2,64 @@
 //   31: {
 //     data: [
 //       {
-//         temp: 123,
-//         weather: "Clear",
-//       }
+//         temp: {
+//           main: 30,
+//           high: 32,
+//           low: 28,
+//         },
+//         weather: {
+//           id: 200
+//         },
+//       },
+//       {...}
 //     ]
 //   }, {...}
 // }
 
+// [
+//   {
+//     title: 31,
+//     data: [
+//       {
+//         temp: {
+//           main: 30,
+//           high: 32,
+//           low: 28,
+//         },
+//         weather: {
+//           id: 200
+//         },
+//       },
+//       {...}
+//     ]
+//   }, {...}
+// ]
+
 const forecastProcessor = rawData => {
-  const response = {};
+  const response = [];
   rawData.list.map(data => {
     const date = new Date(data.dt * 1000).getDate();
-    if (response[date] === undefined) {
-      response[date] = {};
-      response[date]["data"] = [];
+    const day = response.find(obj => obj.title === date);
+    if (day == undefined) {
+      response.push({
+        title: date,
+        data: [],
+      });
     }
-    response[date]["data"].push({
-      temp: data.main.temp,
-      weather: data.weather.main
+
+    response[response.length - 1].data.push({
+      temp: {
+        main: data.main.temp,
+        high: data.main.temp_max,
+        low: data.main.temp_min,
+      },
+      weather: {
+        id: data.weather[0].id,
+      },
+      date: data.dt,
     });
   });
+
   return response;
 };
 

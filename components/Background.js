@@ -13,7 +13,7 @@ const Background = ({ source, children }) => {
   const acc = useAccelerometer({
     interval: 16,
     availibility: true,
-    initial: { x: 0, y: 0, z: 0 }
+    initial: { x: 0, y: 0, z: 0 },
   });
 
   return (
@@ -25,9 +25,9 @@ const Background = ({ source, children }) => {
           transform: [
             { perspective: Dimensions.get("screen").width },
             { rotateX: `${acc[0].y * 10}deg` },
-            { rotateY: `${acc[0].x * 10}deg` }
-          ]
-        }
+            { rotateY: `${acc[0].x * 10}deg` },
+          ],
+        },
       ]}
     >
       <View style={[styles.backgroundMask, { backgroundColor: theme.white }]}>

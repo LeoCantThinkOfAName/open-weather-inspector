@@ -19,9 +19,11 @@ const SettingScreen = () => {
     <View style={styles.container}>
       <Background source={require("../assets/sky.jpg")} />
       <Wrapper>
-        <ThemeText style={[styles.heading, { color: theme.black }]}>
-          Setting
-        </ThemeText>
+        <View style={styles.header}>
+          <ThemeText style={[styles.heading, { color: theme.black }]}>
+            Setting
+          </ThemeText>
+        </View>
         <View style={styles.listWrapper}>
           <View style={[styles.listItem, { borderBottomColor: theme.black }]}>
             <Toggler

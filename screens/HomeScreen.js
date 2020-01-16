@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, TouchableOpacity, Animated } from "react-native";
+import { View, TouchableOpacity, Animated, ScrollView } from "react-native";
 import { useSelector } from "react-redux";
 
 // custom hooks
@@ -11,6 +11,7 @@ import Background from "../components/Background";
 import ThemeText from "../components/ThemeText";
 import FavButton from "../components/FavButton";
 import Forecast from "../components/Forecast";
+import CurrentWeather from "../components/CurrentWeather";
 
 // helpers
 import currentProcessor from "../helpers/currentProcessor";
@@ -21,11 +22,11 @@ import styles from "../styles/main";
 const HomeScreen = ({ route }) => {
   const {
     name,
-    params: { id }
+    params: { id },
   } = route;
   const forecast = useFetch({
     url: `http://api.openweathermap.org/data/2.5/weather?id=${id}`,
-    processor: currentProcessor
+    processor: currentProcessor,
   });
   const [animtePos] = useState(new Animated.Value(100));
   const [animteOpacity] = useState(new Animated.Value(0));
@@ -35,12 +36,12 @@ const HomeScreen = ({ route }) => {
     Animated.parallel([
       Animated.timing(animtePos, {
         toValue: 0,
-        duration: 1000
+        duration: 1000,
       }),
       Animated.timing(animteOpacity, {
         toValue: 1,
-        duration: 1000
-      })
+        duration: 1000,
+      }),
     ]).start();
   }, [route]);
 
@@ -48,26 +49,39 @@ const HomeScreen = ({ route }) => {
     <View style={styles.container}>
       <Background source={require("../assets/sky.jpg")} />
       <Wrapper>
-        <View style={styles.mainArea}>
-          <View style={styles.alignCenter}>
-            <Animated.View
-              style={[
-                styles.header,
-                {
-                  transform: [{ translateY: animtePos }],
-                  opacity: animteOpacity
-                }
-              ]}
-            >
-              <ThemeText style={styles.heading}>{name}, TW</ThemeText>
-              <FavButton route={route} />
-            </Animated.View>
-            <ThemeText>Clear Sky</ThemeText>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={styles.mainScroll}
+        >
+          <View style={styles.mainArea}>
+            <View style={styles.alignCenter}>
+              <Animated.View
+                style={[
+                  styles.header,
+                  {
+                    transform: [{ translateY: animtePos }],
+                    opacity: animteOpacity,
+                  },
+                ]}
+              >
+                <ThemeText style={styles.heading}>{name}, TW</ThemeText>
+                <FavButton route={route} />
+              </Animated.View>
+              <ThemeText>Clear Sky</ThemeText>
+            </View>
+            {forecast.response && (
+              <CurrentWeather
+                temp={forecast.response.temp}
+                weather={forecast.response.weather}
+              />
+            )}
           </View>
-          {forecast.loading && <ThemeText>loading</ThemeText>}
-          {forecast.response && <Forecast id={id} />}
-          {forecast.error && <ThemeText>Not Available</ThemeText>}
-        </View>
+          <View>
+            {forecast.loading && <ThemeText>loading</ThemeText>}
+            {forecast.response && <Forecast id={id} />}
+            {forecast.error && <ThemeText>Not Available</ThemeText>}
+          </View>
+        </ScrollView>
       </Wrapper>
     </View>
   );
