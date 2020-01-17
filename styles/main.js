@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 30,
     fontWeight: "700",
-    marginHorizontal: 10,
+    marginHorizontal: 10
   },
   background: {
     alignItems: "center",
@@ -22,67 +22,89 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: -200,
     left: -100,
-    width: Dimensions.get("screen").width + 200,
+    width: Dimensions.get("screen").width + 200
   },
   backgroundMask: {
     height: Dimensions.get("screen").height + 400,
-    opacity: 0.6,
+    opacity: 0.3,
     position: "absolute",
     top: 0,
     left: 0,
-    width: Dimensions.get("screen").width + 200,
+    width: Dimensions.get("screen").width + 200
   },
   link: {
     fontWeight: "700",
-    textDecorationLine: "underline",
+    textDecorationLine: "underline"
   },
   container: {
     alignItems: "center",
     alignSelf: "stretch",
-    flex: 1,
+    flex: 1
   },
   alignCenter: {
-    alignItems: "center",
+    alignItems: "center"
   },
   alignLeft: {
-    alignItems: "flex-start",
+    alignItems: "flex-start"
   },
   textCenter: {
-    textAlign: "center",
+    textAlign: "center"
+  },
+  flexSpan: {
+    flex: 1
   },
   wrapper: {
     alignSelf: "stretch",
     flex: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: 20
+  },
+  section: {
+    marginBottom: 20
+  },
+  horizontalLine: {
+    height: 1,
+    marginVertical: 10,
+    opacity: 0.3
   },
   listWrapper: {
-    alignSelf: "stretch",
+    alignSelf: "stretch"
   },
   listItem: {
     alignSelf: "stretch",
     borderBottomWidth: 0.5,
-    paddingVertical: 15,
+    paddingVertical: 15
   },
   listItemText: {
-    textAlign: "center",
+    textAlign: "center"
+  },
+  tableHead: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 10
+  },
+  tableHeadItem: {
+    flex: 1,
+    fontSize: 20,
+    fontWeight: "700",
+    textAlign: "center"
   },
   blue: {
-    color: theme.blue,
+    color: theme.blue
   },
   cornflower: {
-    color: theme.cornflower,
+    color: theme.cornflower
   },
   green: {
-    color: theme.green,
+    color: theme.green
   },
   steel: {
-    color: theme.steel,
+    color: theme.steel
   },
   ...header,
   ...tabbar,
   ...inputs,
   ...drawer,
-  ...home,
+  ...home
 });
 
 export default styles;

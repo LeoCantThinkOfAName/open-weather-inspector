@@ -1,13 +1,21 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
+import { useSelector } from "react-redux";
 import { Feather } from "@expo/vector-icons";
+
+// helpers
+import hexToRgb from "../helpers/hexToRgb";
 
 // styles
 import styles from "../styles/main";
 
 const TabBar = ({ state, descriptors, navigation }) => {
+  const { theme } = useSelector(state => state);
+
   return (
-    <View style={styles.tabBar}>
+    <View
+      style={[styles.tabBar, { backgroundColor: hexToRgb(theme.white, 0.5) }]}
+    >
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
@@ -62,9 +70,9 @@ const TabBar = ({ state, descriptors, navigation }) => {
               <Feather
                 name={icon(label)}
                 size={20}
-                color={isFocused ? "#fff" : "#999"}
+                color={isFocused ? theme.black : "#999"}
               />
-              <Text style={{ color: isFocused ? "#fff" : "#999" }}>
+              <Text style={{ color: isFocused ? theme.black : "#999" }}>
                 {label}
               </Text>
             </TouchableOpacity>

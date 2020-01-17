@@ -5,6 +5,9 @@ import { useSelector } from "react-redux";
 // components
 import ThemeText from "./ThemeText";
 
+// helpers
+import hexToRgb from "../helpers/hexToRgb";
+
 // styles
 import styles from "../styles/main";
 
@@ -40,7 +43,10 @@ const Toggler = ({
         <TouchableOpacity
           style={[
             styles.togglerButton,
-            { backgroundColor: theme.white, borderColor: theme.black }
+            {
+              backgroundColor: hexToRgb(theme.white, 0.5),
+              borderColor: theme.black
+            }
           ]}
           onPress={() => handleToggle()}
         >

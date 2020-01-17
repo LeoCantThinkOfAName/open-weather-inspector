@@ -38,6 +38,10 @@ const FavButton = ({ route }) => {
         size={25}
         color={localFav ? themeVar.red : theme.black}
         name={localFav ? "heart" : "heart-o"}
+        style={{
+          textShadowColor: theme.white,
+          textShadowRadius: 3
+        }}
       />
     </TouchableOpacity>
   );

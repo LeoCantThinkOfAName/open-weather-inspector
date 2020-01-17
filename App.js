@@ -17,9 +17,6 @@ import TabBar from "./components/TabBar";
 // components
 import CustomDrawer from "./components/CustomDrawer";
 
-// styles
-import styles from "./styles/main";
-
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -32,13 +29,13 @@ const Home = () => {
       initialRouteName={favorites[0].city}
       drawerContentOptions={{
         itemStyle: {
-          margin: 0,
-        },
+          margin: 0
+        }
       }}
       drawerContent={CustomDrawer}
       drawerStyle={{
         backgroundColor: theme.white,
-        padding: 0,
+        padding: 0
       }}
     >
       {favorites.map(favorite => (
@@ -47,7 +44,7 @@ const Home = () => {
           component={HomeScreen}
           key={favorite.id}
           initialParams={{
-            id: favorite.id,
+            id: favorite.id
           }}
         />
       ))}

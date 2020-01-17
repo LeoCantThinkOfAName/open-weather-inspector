@@ -1,13 +1,10 @@
 import React from "react";
-import { TextInput, View, TouchableOpacity } from "react-native";
-import { useSelector } from "react-redux";
-import {
-  DrawerContentScrollView,
-  DrawerItemList
-} from "@react-navigation/drawer";
+import { View, TouchableOpacity } from "react-native";
+import { DrawerContentScrollView } from "@react-navigation/drawer";
 
 // components
 import ThemeText from "../components/ThemeText";
+import Search from "../components/Search";
 
 // styles
 import styles from "../styles/main";
@@ -43,6 +40,7 @@ const Items = ({ state: { routes }, navigation, descriptors }) => {
 const CustomDrawer = props => {
   return (
     <DrawerContentScrollView {...props}>
+      <Search />
       <Items
         state={props.state}
         navigation={props.navigation}

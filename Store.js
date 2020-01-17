@@ -25,21 +25,21 @@ const flipBoolen = (state = true, action) => {
 
 const toggleTheme = (
   state = {
-    black: theme === "light" ? "blue" : "#fff",
-    white: theme === "light" ? "#fff" : "#555"
+    black: theme === "light" ? "#333333" : "#ffffff",
+    white: theme === "light" ? "#ffffff" : "#333333"
   },
   action
 ) => {
   switch (action.type) {
     case "dark":
       return {
-        black: "#fff",
-        white: "#555"
+        black: "#ffffff",
+        white: "#333333"
       };
     case "light":
       return {
-        black: "#555",
-        white: "#fff"
+        black: "#333333",
+        white: "#ffffff"
       };
     default:
       return state;
@@ -48,10 +48,10 @@ const toggleTheme = (
 
 const favoritesReducer = (
   state = [
-    { city: "Taipei", id: 2172797 },
-    { city: "New Taipei City", id: 456 },
-    { city: "Taichung", id: 567 },
-    { city: "Tainan", id: 678 }
+    { city: "Taipei, TW", id: 1668341 },
+    { city: "New Taipei, TW", id: 1668341 },
+    { city: "Taichung, TW", id: 1668399 },
+    { city: "Tainan, TW", id: 1668355 }
   ],
   action
 ) => {

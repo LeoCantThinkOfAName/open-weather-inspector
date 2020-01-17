@@ -3,6 +3,12 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { useSelector } from "react-redux";
 import { Feather } from "@expo/vector-icons";
 
+// components
+import ThemeText from "../components/ThemeText";
+
+// helpers
+import hexToRgb from "../helpers/hexToRgb";
+
 // styles
 import styles from "../styles/main";
 
@@ -17,11 +23,14 @@ const CheckBox = ({ description = "Description Goes Here!" }) => {
   return (
     <View style={styles.toggler}>
       <View style={styles.checkboxWrapper}>
-        <Text style={styles.togglerLabel}> </Text>
+        <ThemeText style={styles.togglerLabel}> </ThemeText>
         <TouchableOpacity
           style={[
             styles.checkbox,
-            { backgroundColor: theme.white, borderColor: theme.black }
+            {
+              backgroundColor: hexToRgb(theme.white, 0.5),
+              borderColor: theme.black
+            }
           ]}
           onPress={() => handlePress()}
         >
@@ -29,17 +38,23 @@ const CheckBox = ({ description = "Description Goes Here!" }) => {
             style={[
               styles.checkboxIndicator,
               {
-                backgroundColor: toggle ? theme.black : theme.white
+                backgroundColor: toggle
+                  ? theme.black
+                  : hexToRgb(theme.white, 0.5)
               }
             ]}
           >
-            <Feather name="check" size={26} color={theme.white} />
+            <Feather
+              name="check"
+              size={26}
+              color={toggle ? theme.white : "transparent"}
+            />
           </View>
         </TouchableOpacity>
       </View>
-      <Text style={[styles.togglerDescription, { color: theme.black }]}>
+      <ThemeText style={[styles.togglerDescription, { color: theme.black }]}>
         {description}
-      </Text>
+      </ThemeText>
     </View>
   );
 };
