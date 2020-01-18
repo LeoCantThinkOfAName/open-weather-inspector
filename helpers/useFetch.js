@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 const key = "e0e6bc3e4f76bd0cee424878945e0461";
 
@@ -8,27 +9,30 @@ const key = "e0e6bc3e4f76bd0cee424878945e0461";
 const useFetch = ({ url, options, processor }) => {
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const api = `${url}&APPID=${key}`;
-        const res = await fetch(api, options);
-        const json = await res.json();
-        const processed = await processor(json);
-        setResponse(processed);
-        setLoading(false);
-      } catch (err) {
-        setError(err);
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
+    dispatch({ type: "SEARCHING", payload: true });
+    if (url) {
+      const fetchData = async () => {
+        try {
+          const api = `${url}&APPID=${key}`;
+          const res = await fetch(api, options);
+          const json = await res.json();
+          const processed = await processor(json);
+          setResponse(processed);
+          setError(null);
+        } catch (err) {
+          setError(err);
+          setResponse(null);
+        }
+        dispatch({ type: "SEARCHING", payload: false });
+      };
+      fetchData();
+    }
+  }, [url]);
 
-  return { response, error, loading };
+  return { response, error };
 };
 
 export default useFetch;

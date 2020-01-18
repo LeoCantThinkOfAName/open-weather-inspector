@@ -26,7 +26,7 @@ const flipBoolen = (state = true, action) => {
 const toggleTheme = (
   state = {
     black: theme === "light" ? "#333333" : "#ffffff",
-    white: theme === "light" ? "#ffffff" : "#333333"
+    white: theme === "light" ? "#ffffff" : "#333333",
   },
   action
 ) => {
@@ -34,12 +34,12 @@ const toggleTheme = (
     case "dark":
       return {
         black: "#ffffff",
-        white: "#333333"
+        white: "#333333",
       };
     case "light":
       return {
         black: "#333333",
-        white: "#ffffff"
+        white: "#ffffff",
       };
     default:
       return state;
@@ -51,7 +51,7 @@ const favoritesReducer = (
     { city: "Taipei, TW", id: 1668341 },
     { city: "New Taipei, TW", id: 1668341 },
     { city: "Taichung, TW", id: 1668399 },
-    { city: "Tainan, TW", id: 1668355 }
+    { city: "Tainan, TW", id: 1668355 },
   ],
   action
 ) => {
@@ -65,12 +65,37 @@ const favoritesReducer = (
   }
 };
 
+const uiReducer = (
+  state = {
+    searchLoading: true,
+  },
+  action
+) => {
+  switch (action.type) {
+    case "SEARCHING":
+      return { searchLoading: action.payload };
+    default:
+      return state;
+  }
+};
+
+const sessionScreenReducer = (state = [], action) => {
+  switch (action.type) {
+    case "ADD_SCREEN":
+      return [...state, action.payload];
+    default:
+      return state;
+  }
+};
+
 const store = createStore(
   combineReducers({
     theme: toggleTheme,
     counter: counterReducer,
     bool: flipBoolen,
-    favorites: favoritesReducer
+    favorites: favoritesReducer,
+    sessionScreen: sessionScreenReducer,
+    ui: uiReducer,
   })
 );
 

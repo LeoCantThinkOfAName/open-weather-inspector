@@ -20,17 +20,20 @@ const Items = ({ state: { routes }, navigation, descriptors }) => {
         };
 
         return (
-          <TouchableOpacity
-            key={route.key}
-            style={[
-              styles.drawerListItem,
-              index % 2 === 1 ? styles.drawerListItemEven : null,
-              focused ? styles.drawerListItemFocused : null
-            ]}
-            onPress={() => handlePress()}
-          >
-            <ThemeText>{route.name}</ThemeText>
-          </TouchableOpacity>
+          route.name !== "Home" &&
+          !route.params.session && (
+            <TouchableOpacity
+              key={route.key}
+              style={[
+                styles.drawerListItem,
+                index % 2 === 1 ? styles.drawerListItemEven : null,
+                focused ? styles.drawerListItemFocused : null,
+              ]}
+              onPress={() => handlePress()}
+            >
+              <ThemeText>{route.name}</ThemeText>
+            </TouchableOpacity>
+          )
         );
       })}
     </View>
@@ -40,7 +43,7 @@ const Items = ({ state: { routes }, navigation, descriptors }) => {
 const CustomDrawer = props => {
   return (
     <DrawerContentScrollView {...props}>
-      <Search />
+      <Search navigation={props.navigation} />
       <Items
         state={props.state}
         navigation={props.navigation}

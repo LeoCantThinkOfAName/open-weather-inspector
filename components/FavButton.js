@@ -7,13 +7,11 @@ import { FontAwesome } from "@expo/vector-icons";
 import themeVar from "../styles/variables";
 import styles from "../styles/main";
 
-const FavButton = ({ route }) => {
+const FavButton = ({ id }) => {
   const { favorites } = useSelector(state => state);
   const { theme } = useSelector(state => state);
   const dispatch = useDispatch();
-  const faved = favorites.find(fav => fav.id === route.params.id)
-    ? true
-    : false;
+  const faved = favorites.find(fav => fav.id === id) ? true : false;
   const [localFav, setLocalFav] = useState(faved);
 
   const handlePress = () => {
@@ -32,6 +30,10 @@ const FavButton = ({ route }) => {
     // return () => dispatch({ type: "REMOVE_FAVORITE", payload: city });
   }, []);
 
+  useEffect(() => {
+    setLocalFav(faved);
+  }, [id]);
+
   return (
     <TouchableOpacity style={styles.favButton} onPress={handlePress}>
       <FontAwesome
@@ -40,7 +42,7 @@ const FavButton = ({ route }) => {
         name={localFav ? "heart" : "heart-o"}
         style={{
           textShadowColor: theme.white,
-          textShadowRadius: 3
+          textShadowRadius: 3,
         }}
       />
     </TouchableOpacity>

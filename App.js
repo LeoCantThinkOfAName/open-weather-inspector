@@ -23,28 +23,53 @@ const Tab = createBottomTabNavigator();
 const Home = () => {
   const { theme } = useSelector(state => state);
   const { favorites } = useSelector(state => state);
+  const { sessionScreen } = useSelector(state => state);
 
   return (
     <Drawer.Navigator
-      initialRouteName={favorites[0].city}
+      initialRouteName="Home"
       drawerContentOptions={{
         itemStyle: {
-          margin: 0
-        }
+          margin: 0,
+        },
       }}
       drawerContent={CustomDrawer}
       drawerStyle={{
         backgroundColor: theme.white,
-        padding: 0
+        padding: 0,
       }}
+      unmountInactiveScreens={true}
     >
+      <Drawer.Screen
+        name="Home"
+        component={HomeScreen}
+        key={favorites ? favorites[0].id : null}
+        initialParams={{
+          id: favorites ? favorites[0].id : null,
+          city: favorites ? favorites[0].city : null,
+        }}
+      />
+      {sessionScreen.map(screen => (
+        <Drawer.Screen
+          name={screen.city}
+          component={HomeScreen}
+          key={new Date().getTime()}
+          initialParams={{
+            id: null,
+            city: screen.city,
+            session: true,
+          }}
+        />
+      ))}
       {favorites.map(favorite => (
         <Drawer.Screen
           name={favorite.city}
           component={HomeScreen}
           key={favorite.id}
           initialParams={{
-            id: favorite.id
+            id: favorite.id,
+            city: favorite.city,
+            session: false,
           }}
         />
       ))}

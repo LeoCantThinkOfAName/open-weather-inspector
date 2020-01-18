@@ -19,7 +19,7 @@ import styles from "../styles/main";
 const Forecast = ({ id }) => {
   const forecast = useFetch({
     url: `http://api.openweathermap.org/data/2.5/forecast?id=${id}`,
-    processor: forecastProcessor
+    processor: forecastProcessor,
   });
 
   return (

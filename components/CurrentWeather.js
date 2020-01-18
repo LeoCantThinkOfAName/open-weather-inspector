@@ -20,7 +20,7 @@ const CurrentWeather = ({ temp, weather }) => {
   useEffect(() => {
     Animated.timing(animateTemp, {
       toValue: 1,
-      duration: 1500
+      duration: 1500,
     }).start();
   }, []);
 
@@ -33,7 +33,7 @@ const CurrentWeather = ({ temp, weather }) => {
             <ThemeText style={styles.conditionTemp}>
               {tempConverter({
                 unit: "c",
-                temp: temp.high
+                temp: temp.high,
               })}
             </ThemeText>
           </View>
@@ -42,7 +42,7 @@ const CurrentWeather = ({ temp, weather }) => {
             <ThemeText style={styles.conditionTemp}>
               {tempConverter({
                 unit: "c",
-                temp: temp.low
+                temp: temp.low,
               })}
             </ThemeText>
           </View>
@@ -54,7 +54,7 @@ const CurrentWeather = ({ temp, weather }) => {
               style={{
                 color: theme.black,
                 textShadowColor: theme.white,
-                textShadowRadius: 3
+                textShadowRadius: 3,
               }}
             />
           </View>
@@ -62,7 +62,7 @@ const CurrentWeather = ({ temp, weather }) => {
         <ThemeText style={styles.mainTemp}>
           {tempConverter({
             unit: "c",
-            temp: temp.main
+            temp: temp.main,
           })}
         </ThemeText>
       </View>

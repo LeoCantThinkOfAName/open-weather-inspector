@@ -4,7 +4,7 @@ import {
   SafeAreaView,
   Animated,
   ScrollView,
-  BackHandler
+  BackHandler,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSelector } from "react-redux";
@@ -31,14 +31,16 @@ import styles from "../styles/main";
 
 const HomeScreen = ({ route, navigation }) => {
   const {
-    name,
-    params: { id }
+    params: { id, city },
   } = route;
   const forecast = useFetch({
-    url: `http://api.openweathermap.org/data/2.5/weather?id=${id}`,
-    processor: currentProcessor
+    url: id
+      ? `http://api.openweathermap.org/data/2.5/weather?id=${id}`
+      : `http://api.openweathermap.org/data/2.5/weather?q=${city}`,
+    processor: currentProcessor,
   });
   const { theme } = useSelector(state => state);
+  const { ui } = useSelector(state => state);
   const backHandler = useRef(null);
   const [animtePos] = useState(new Animated.Value(100));
   const [animteOpacity] = useState(new Animated.Value(0));
@@ -47,12 +49,12 @@ const HomeScreen = ({ route, navigation }) => {
     Animated.parallel([
       Animated.timing(animtePos, {
         toValue: 0,
-        duration: 1000
+        duration: 1000,
       }),
       Animated.timing(animteOpacity, {
         toValue: 1,
-        duration: 1000
-      })
+        duration: 1000,
+      }),
     ]).start();
   }, [route]);
 
@@ -64,6 +66,11 @@ const HomeScreen = ({ route, navigation }) => {
     return () => backHandler.current.remove();
   }, []);
 
+  useEffect(() => {
+    if (forecast.response !== null || forecast.error !== null)
+      navigation.closeDrawer();
+  }, [forecast]);
+
   const handleBackPress = () => {
     if (!navigation.isFocused) {
       return false;
@@ -71,17 +78,19 @@ const HomeScreen = ({ route, navigation }) => {
 
     if (navigation.canGoBack()) {
       navigation.dispatch({
-        ...CommonActions.goBack()
+        ...CommonActions.goBack(),
       });
     }
     return true;
   };
 
+  console.log(forecast.response);
+
   return (
     <View style={styles.container}>
       <Background
         source={
-          forecast.response
+          forecast.response && !ui.searchLoadin
             ? conditionConverter(forecast.response.weather).image
             : null
         }
@@ -97,27 +106,40 @@ const HomeScreen = ({ route, navigation }) => {
               "rgba(0, 0, 0, 0)",
               "rgba(0, 0, 0, 0)",
               hexToRgb(theme.white, 0.5),
-              hexToRgb(theme.white, 1)
+              hexToRgb(theme.white, 1),
             ]}
           >
             <Wrapper>
               <View style={styles.mainArea}>
                 <View style={styles.alignCenter}>
                   <Animated.View
-                    style={[
-                      styles.header,
-                      {
-                        transform: [{ translateY: animtePos }],
-                        opacity: animteOpacity
-                      }
-                    ]}
+                    style={{
+                      transform: [{ translateY: animtePos }],
+                      opacity: animteOpacity,
+                      alignItems: "center",
+                    }}
                   >
-                    <ThemeText style={styles.heading}>{name}</ThemeText>
-                    <FavButton route={route} />
+                    <View style={styles.header}>
+                      <ThemeText style={styles.heading}>
+                        {forecast.error && `Can Not Found ${city}`}
+                        {forecast.response && forecast.response.location.city}
+                      </ThemeText>
+                      {!forecast.error && (
+                        <FavButton
+                          route={route}
+                          id={
+                            forecast.response
+                              ? forecast.response.id
+                              : route.params.id
+                          }
+                        />
+                      )}
+                    </View>
+                    <ThemeText>
+                      {forecast.response && forecast.response.description}
+                      {forecast.error && "Please Check Your Search Term"}
+                    </ThemeText>
                   </Animated.View>
-                  <ThemeText>
-                    {forecast.response && forecast.response.description}
-                  </ThemeText>
                 </View>
                 {forecast.response && (
                   <CurrentWeather
@@ -128,8 +150,7 @@ const HomeScreen = ({ route, navigation }) => {
               </View>
               <View>
                 {forecast.loading && <ThemeText>loading</ThemeText>}
-                {forecast.response && <Forecast id={id} />}
-                {forecast.error && <ThemeText>Not Available</ThemeText>}
+                {forecast.response && <Forecast id={forecast.response.id} />}
               </View>
             </Wrapper>
           </LinearGradient>

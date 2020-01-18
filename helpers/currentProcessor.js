@@ -1,7 +1,8 @@
 const currentProcessor = rawData => {
-  const { sys, weather, name, main } = rawData;
+  const { id, cod, sys, weather, name, main } = rawData;
   return {
-    id: sys.id,
+    id: id,
+    cod: cod,
     temp: {
       main: main.temp,
       high: main.temp_max,
@@ -15,7 +16,7 @@ const currentProcessor = rawData => {
     },
     location: {
       country: sys.country,
-      name: name,
+      city: `${name}, ${sys.country}`,
     },
   };
 };
