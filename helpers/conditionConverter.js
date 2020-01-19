@@ -6,48 +6,48 @@ const conditionConverter = condition => {
       // thunderstorm
       return {
         image: require("../assets/thunder.jpg"),
-        icon: "weather-lightning-rainy"
+        icon: "cloud-lightning",
       };
     case 3:
       // drizzle
       return {
         image: require("../assets/rain.jpg"),
-        icon: "weather-rainy"
+        icon: "cloud-drizzle",
       };
     case 5:
       // rain
       return {
         image: require("../assets/rain.jpg"),
-        icon: "weather-rainy"
+        icon: "cloud-rain",
       };
     case 6:
       // snow
       return {
         image: require("../assets/snow.jpg"),
-        icon: "weather-snowy"
+        icon: "cloud-snow",
       };
     case 7:
       // atmosphere
       return {
         image: require("../assets/typhoon.jpg"),
-        icon: "weather-fog"
+        icon: "wind",
       };
     case 8:
       if (condition % 100) {
         return {
-          image: require("../assets/sky.jpg"),
-          icon: "weather-cloudy"
+          image: require("../assets/cloudy.jpg"),
+          icon: "cloud",
         };
       } else {
         return {
           image: require("../assets/clear.jpg"),
-          icon: "weather-sunny"
+          icon: "sun",
         };
       }
     default:
       return {
         image: require("../assets/cloudy.jpg"),
-        icon: "cloud-question"
+        icon: "wind",
       };
   }
 };

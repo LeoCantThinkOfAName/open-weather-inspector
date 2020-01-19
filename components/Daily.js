@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import { useSelector } from "react-redux";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 
 // components
 import ThemeText from "./ThemeText";
@@ -28,8 +28,8 @@ const Daily = ({ days }) => {
         temp: {
           main: prev.temp.main + current.temp.main,
           low: prev.temp.low + current.temp.low,
-          high: prev.temp.high + current.temp.high
-        }
+          high: prev.temp.high + current.temp.high,
+        },
       };
     });
 
@@ -60,8 +60,8 @@ const Daily = ({ days }) => {
               styles.dayRow,
               {
                 backgroundColor:
-                  index % 2 === 0 ? "rgba(255, 255, 255, 0.1)" : null
-              }
+                  index % 2 === 0 ? "rgba(255, 255, 255, 0.1)" : null,
+              },
             ]}
           >
             <ThemeText
@@ -75,33 +75,33 @@ const Daily = ({ days }) => {
             <ThemeText style={[styles.textCenter, styles.flexSpan]}>
               {tempConverter({
                 unit: "c",
-                temp: main
+                temp: main,
               })}
             </ThemeText>
-            <MaterialCommunityIcons
+            <Feather
               style={[
                 styles.textCenter,
                 styles.flexSpan,
                 {
                   color: theme.black,
                   textShadowColor: theme.white,
-                  textShadowRadius: 3
-                }
+                  textShadowRadius: 3,
+                },
               ]}
-              size={30}
+              size={25}
               name={conditionConverter(day.data[0].weather.id).icon}
               color={theme.black}
             />
             <ThemeText style={[styles.textCenter, styles.flexSpan]}>
               {tempConverter({
                 unit: "c",
-                temp: high
+                temp: high,
               })}
             </ThemeText>
             <ThemeText style={[styles.textCenter, styles.flexSpan]}>
               {tempConverter({
                 unit: "c",
-                temp: low
+                temp: low,
               })}
             </ThemeText>
           </View>

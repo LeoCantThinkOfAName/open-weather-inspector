@@ -23,7 +23,7 @@ import styles from "../styles/main";
 
 const Search = ({ navigation }) => {
   const { theme } = useSelector(state => state);
-  const { sessionScreen } = useSelector(state => state);
+  const { sessionData } = useSelector(state => state);
   const { ui } = useSelector(state => state);
   const [text, setText] = useState("");
   const [cities, setCities] = useState([]);
@@ -40,12 +40,6 @@ const Search = ({ navigation }) => {
       { iterations: -1 }
     ).start();
   }, []);
-
-  useEffect(() => {
-    if (text) {
-      navigation.jumpTo(text);
-    }
-  }, [sessionScreen]);
 
   const handleChange = input => {
     clearTimeout(inter.current);

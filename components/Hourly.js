@@ -1,7 +1,7 @@
 import React from "react";
 import { View, SafeAreaView, SectionList } from "react-native";
 import { useSelector } from "react-redux";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 
 // components
 import ThemeText from "./ThemeText";
@@ -33,14 +33,15 @@ const Hourly = ({ days }) => {
             return (
               <View style={styles.conditionTempWrapper}>
                 <ThemeText>{convertDate(item.date)}</ThemeText>
-                <MaterialCommunityIcons
-                  size={35}
+                <Feather
+                  size={30}
                   name={conditionConverter(item.weather.id).icon}
                   color={theme.black}
                   style={{
                     color: theme.black,
                     textShadowColor: theme.white,
-                    textShadowRadius: 3
+                    textShadowRadius: 3,
+                    marginVertical: 5,
                   }}
                 />
                 <ThemeText>

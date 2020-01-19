@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Animated } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 
 // components
@@ -47,8 +47,8 @@ const CurrentWeather = ({ temp, weather }) => {
             </ThemeText>
           </View>
           <View style={styles.conditionTempWrapper}>
-            <MaterialCommunityIcons
-              size={50}
+            <Feather
+              size={45}
               name={conditionConverter(weather).icon}
               color={theme.black}
               style={{

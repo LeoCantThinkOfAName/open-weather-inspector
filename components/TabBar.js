@@ -27,8 +27,8 @@ const TabBar = ({ state, descriptors, navigation }) => {
         const isFocused = state.index === index;
         const icon = name => {
           switch (name) {
-            case "Home":
-              return "home";
+            case "Weather":
+              return "sun";
             case "Setting":
               return "settings";
             case "Credit":
@@ -41,7 +41,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
         const onPress = () => {
           const event = navigation.emit({
             type: "tabPress",
-            target: route.key
+            target: route.key,
           });
 
           if (!isFocused && !event.defaultPrevented) {
@@ -52,7 +52,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
         const onLongPress = () => {
           navigation.emit({
             type: "tabLongPress",
-            target: route.key
+            target: route.key,
           });
         };
 
