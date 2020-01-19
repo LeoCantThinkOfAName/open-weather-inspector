@@ -23,7 +23,6 @@ const Tab = createBottomTabNavigator();
 const Home = () => {
   const { theme } = useSelector(state => state);
   const { favorites } = useSelector(state => state);
-  const { sessionScreen } = useSelector(state => state);
 
   return (
     <Drawer.Navigator
@@ -49,18 +48,15 @@ const Home = () => {
           city: favorites ? favorites[0].city : null,
         }}
       />
-      {sessionScreen.map(screen => (
-        <Drawer.Screen
-          name={screen.city}
-          component={HomeScreen}
-          key={new Date().getTime()}
-          initialParams={{
-            id: null,
-            city: screen.city,
-            session: true,
-          }}
-        />
-      ))}
+      <Drawer.Screen
+        name="Current Location"
+        component={HomeScreen}
+        key="current"
+        initialParams={{
+          id: null,
+          city: null,
+        }}
+      />
       {favorites.map(favorite => (
         <Drawer.Screen
           name={favorite.city}
