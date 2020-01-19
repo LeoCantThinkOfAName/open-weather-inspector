@@ -1,6 +1,7 @@
 import React from "react";
 import { View, TouchableOpacity } from "react-native";
 import { DrawerContentScrollView } from "@react-navigation/drawer";
+import { Feather } from "@expo/vector-icons";
 
 // components
 import ThemeText from "../components/ThemeText";
@@ -31,6 +32,14 @@ const Items = ({ state: { routes }, navigation, descriptors }) => {
               ]}
               onPress={() => handlePress()}
             >
+              <Feather
+                style={[
+                  styles.drawerListItemIcon,
+                  focused ? styles.drawerListItemIconFocused : null,
+                ]}
+                size={15}
+                name="map-pin"
+              />
               <ThemeText>{route.name}</ThemeText>
             </TouchableOpacity>
           )
