@@ -8,7 +8,6 @@ import useFetch from "../helpers/useFetch";
 import ThemeText from "./ThemeText";
 import Daily from "./Daily";
 import Hourly from "./Hourly";
-import HorizontalLine from "./HorizontalLine";
 
 // helper
 import forecastProcessor from "../helpers/forecastProcessor";
@@ -24,8 +23,6 @@ const Forecast = ({ id }) => {
 
   return (
     <View style={styles.forecast}>
-      <ThemeText style={styles.heading}>Hourly Forecast</ThemeText>
-      <HorizontalLine />
       {forecast.response && <Hourly days={forecast.response} />}
       {forecast.response && <Daily days={forecast.response} />}
       {forecast.loading && <ThemeText>Loading</ThemeText>}

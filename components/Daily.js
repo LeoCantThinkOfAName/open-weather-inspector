@@ -38,7 +38,9 @@ const Daily = ({ days }) => {
 
   return (
     <View style={styles.section}>
-      <ThemeText style={styles.heading}>Daily Forecast</ThemeText>
+      <ThemeText style={[styles.heading, styles.alignLeft]}>
+        Daily Forecast
+      </ThemeText>
       <HorizontalLine />
       <View style={styles.tableHead}>
         <TableHead text="Day" />

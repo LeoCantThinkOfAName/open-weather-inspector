@@ -5,6 +5,7 @@ import { Feather } from "@expo/vector-icons";
 
 // components
 import ThemeText from "./ThemeText";
+import HorizontalLine from "./HorizontalLine";
 
 // helpers
 import addSuffix from "../helpers/addSuffix";
@@ -25,6 +26,10 @@ const Hourly = ({ days }) => {
 
   return (
     <View style={styles.section}>
+      <ThemeText style={[styles.heading, styles.alignLeft]}>
+        Hourly Forecast
+      </ThemeText>
+      <HorizontalLine />
       <SafeAreaView>
         <SectionList
           style={{ maxHeight: 300 }}
