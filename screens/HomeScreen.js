@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { CommonActions } from "@react-navigation/native";
 
 // custom hooks
-import useFetch from "../helpers/useFetch";
+// import useFetch from "../helpers/useFetch";
 
 // components
 import Wrapper from "../components/Wrapper";
@@ -33,12 +33,12 @@ const HomeScreen = ({ route, navigation }) => {
   const {
     params: { id, city },
   } = route;
-  const forecast = useFetch({
-    url: id
-      ? `http://api.openweathermap.org/data/2.5/weather?id=${id}`
-      : `http://api.openweathermap.org/data/2.5/weather?q=${city}`,
-    processor: currentProcessor,
-  });
+  // const forecast = useFetch({
+  //   url: id
+  //     ? `http://api.openweathermap.org/data/2.5/weather?id=${id}`
+  //     : `http://api.openweathermap.org/data/2.5/weather?q=${city}`,
+  //   processor: currentProcessor,
+  // });
   const { theme } = useSelector(state => state);
   const { ui } = useSelector(state => state);
   const backHandler = useRef(null);
@@ -66,10 +66,10 @@ const HomeScreen = ({ route, navigation }) => {
     return () => backHandler.current.remove();
   }, []);
 
-  useEffect(() => {
-    if (forecast.response !== null || forecast.error !== null)
-      navigation.closeDrawer();
-  }, [forecast]);
+  // useEffect(() => {
+  //   if (forecast.response !== null || forecast.error !== null)
+  //     navigation.closeDrawer();
+  // }, [forecast]);
 
   const handleBackPress = () => {
     if (!navigation.isFocused) {
@@ -84,78 +84,82 @@ const HomeScreen = ({ route, navigation }) => {
     return true;
   };
 
-  console.log(forecast.response);
+  // return (
+  //   <View style={styles.container}>
+  //     <Background
+  //       source={
+  //         forecast.response && !ui.searchLoadin
+  //           ? conditionConverter(forecast.response.weather).image
+  //           : null
+  //       }
+  //     />
+  //     <SafeAreaView style={styles.mainScroll}>
+  //       <ScrollView
+  //         showsVerticalScrollIndicator={false}
+  //         style={[styles.mainScroll]}
+  //       >
+  //         <LinearGradient
+  //           colors={[
+  //             "rgba(0, 0, 0, 0)",
+  //             "rgba(0, 0, 0, 0)",
+  //             "rgba(0, 0, 0, 0)",
+  //             hexToRgb(theme.white, 0.5),
+  //             hexToRgb(theme.white, 1),
+  //           ]}
+  //         >
+  //           <Wrapper>
+  //             <View style={styles.mainArea}>
+  //               <View style={styles.alignCenter}>
+  //                 <Animated.View
+  //                   style={{
+  //                     transform: [{ translateY: animtePos }],
+  //                     opacity: animteOpacity,
+  //                     alignItems: "center",
+  //                   }}
+  //                 >
+  //                   <View style={styles.header}>
+  //                     <ThemeText style={styles.heading}>
+  //                       {forecast.error && `Can Not Found ${city}`}
+  //                       {forecast.response && forecast.response.location.city}
+  //                     </ThemeText>
+  //                     {!forecast.error && (
+  //                       <FavButton
+  //                         route={route}
+  //                         id={
+  //                           forecast.response
+  //                             ? forecast.response.id
+  //                             : route.params.id
+  //                         }
+  //                       />
+  //                     )}
+  //                   </View>
+  //                   <ThemeText>
+  //                     {forecast.response && forecast.response.description}
+  //                     {forecast.error && "Please Check Your Search Term"}
+  //                   </ThemeText>
+  //                 </Animated.View>
+  //               </View>
+  //               {forecast.response && (
+  //                 <CurrentWeather
+  //                   temp={forecast.response.temp}
+  //                   weather={forecast.response.weather}
+  //                 />
+  //               )}
+  //             </View>
+  //             <View>
+  //               {forecast.loading && <ThemeText>loading</ThemeText>}
+  //               {forecast.response && <Forecast id={forecast.response.id} />}
+  //             </View>
+  //           </Wrapper>
+  //         </LinearGradient>
+  //       </ScrollView>
+  //     </SafeAreaView>
+  //   </View>
+  // );
 
   return (
-    <View style={styles.container}>
-      <Background
-        source={
-          forecast.response && !ui.searchLoadin
-            ? conditionConverter(forecast.response.weather).image
-            : null
-        }
-      />
-      <SafeAreaView style={styles.mainScroll}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          style={[styles.mainScroll]}
-        >
-          <LinearGradient
-            colors={[
-              "rgba(0, 0, 0, 0)",
-              "rgba(0, 0, 0, 0)",
-              "rgba(0, 0, 0, 0)",
-              hexToRgb(theme.white, 0.5),
-              hexToRgb(theme.white, 1),
-            ]}
-          >
-            <Wrapper>
-              <View style={styles.mainArea}>
-                <View style={styles.alignCenter}>
-                  <Animated.View
-                    style={{
-                      transform: [{ translateY: animtePos }],
-                      opacity: animteOpacity,
-                      alignItems: "center",
-                    }}
-                  >
-                    <View style={styles.header}>
-                      <ThemeText style={styles.heading}>
-                        {forecast.error && `Can Not Found ${city}`}
-                        {forecast.response && forecast.response.location.city}
-                      </ThemeText>
-                      {!forecast.error && (
-                        <FavButton
-                          route={route}
-                          id={
-                            forecast.response
-                              ? forecast.response.id
-                              : route.params.id
-                          }
-                        />
-                      )}
-                    </View>
-                    <ThemeText>
-                      {forecast.response && forecast.response.description}
-                      {forecast.error && "Please Check Your Search Term"}
-                    </ThemeText>
-                  </Animated.View>
-                </View>
-                {forecast.response && (
-                  <CurrentWeather
-                    temp={forecast.response.temp}
-                    weather={forecast.response.weather}
-                  />
-                )}
-              </View>
-              <View>
-                {forecast.loading && <ThemeText>loading</ThemeText>}
-                {forecast.response && <Forecast id={forecast.response.id} />}
-              </View>
-            </Wrapper>
-          </LinearGradient>
-        </ScrollView>
-      </SafeAreaView>
+    <View>
+      <ThemeText>hello</ThemeText>
     </View>
   );
 };

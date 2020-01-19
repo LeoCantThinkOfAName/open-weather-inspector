@@ -1,5 +1,8 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
+
+// components
+import ThemeText from "../components/ThemeText";
 
 // styles
 import styles from "../styles/main";
@@ -8,7 +11,7 @@ const EmptyScrren = props => {
   console.log(props);
   return (
     <View style={styles.container}>
-      <Text>empty</Text>
+      <ThemeText style={{ fontSize: 500 }}>Empty</ThemeText>
     </View>
   );
 };

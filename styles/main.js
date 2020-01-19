@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
   },
   alignLeft: {
     alignItems: "flex-start",
+    textAlign: "left",
   },
   textCenter: {
     textAlign: "center",
