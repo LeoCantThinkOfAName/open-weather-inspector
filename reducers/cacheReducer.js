@@ -5,7 +5,7 @@ import forecastProcessor from "../helpers/forecastProcessor";
 export const ADD_FORECAST_DATA = "ADD_FORECAST_DATA";
 export const FAIL_TO_ADD_FORECAST_DATA = "FAIL_TO_ADD_FORECAST_DATA";
 
-export const sessionDataReducer = (state = [], action) => {
+export const cacheReducer = (state = [], action) => {
   switch (action.type) {
     case ADD_FORECAST_DATA:
       return [...state, action.payload];

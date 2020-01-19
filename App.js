@@ -20,14 +20,13 @@ import EmptyScreen from "./screens/EmptyScreen";
 import CustomDrawer from "./components/CustomDrawer";
 import TabBar from "./components/TabBar";
 
-// custom hooks
-import useGeoLocation from "./helpers/useGeoLocation";
-
 // helpers
 import {
   requestPermission,
   requestLocation,
 } from "./helpers/requestPermission";
+import fetchData from "./helpers/fetchData";
+import currentProcessor from "./helpers/currentProcessor";
 
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
@@ -36,22 +35,34 @@ const Home = () => {
   const { theme } = useSelector(state => state);
   const { favorites } = useSelector(state => state);
   const [ready, setReady] = useState(false);
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState({ lat: null, lon: null });
+
+  const initialize = async () => {
+    const permission = await requestPermission({
+      permissionType: Permission.LOCATION,
+      errorMessage: "Permission for access location was denied",
+    });
+
+    if (permission.success) {
+      const { coords } = await requestLocation();
+      setLocation({
+        lat: coords.latitude,
+        lon: coords.longitude,
+      });
+
+      const weather = await fetchData({
+        url: `http://api.openweathermap.org/data/2.5/weather?lat=${coords.latitude}&lon=${coords.longitude}`,
+        processor: currentProcessor,
+      });
+
+      console.log(weather);
+    }
+  };
 
   if (!ready) {
     return (
       <AppLoading
-        startAsync={async () => {
-          const permission = await requestPermission({
-            permissionType: Permission.LOCATION,
-            errorMessage: "Permission for access location was denied",
-          });
-
-          if (permission.success) {
-            const locationObj = await requestLocation();
-            setLocation(locationObj);
-          }
-        }}
+        startAsync={() => initialize()}
         onFinish={() => setReady(true)}
         onError={err => console.warn(err)}
       />

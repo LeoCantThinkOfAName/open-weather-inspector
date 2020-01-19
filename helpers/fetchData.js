@@ -1,48 +1,31 @@
-// import { useState, useEffect } from "react";
-// import { useSelector, useDispatch } from "react-redux";
+import currentProcessor from "./currentProcessor";
+import forecastProcessor from "./forecastProcessor";
 
 const key = "e0e6bc3e4f76bd0cee424878945e0461";
 
 // api example
 // http://api.openweathermap.org/data/2.5/forecast?id=524901&APPID={APIKEY}
 
-// const useFetch = ({ url, options, processor }) => {
-//   const [response, setResponse] = useState(null);
-//   const [error, setError] = useState(null);
-//   const dispatch = useDispatch();
-
-//   useEffect(() => {
-//     dispatch({ type: "SEARCHING", payload: true });
-//     if (url) {
-//       const fetchData = async () => {
-//         try {
-//           const api = `${url}&APPID=${key}`;
-//           const res = await fetch(api, options);
-//           const json = await res.json();
-//           const processed = await processor(json);
-//           setResponse(processed);
-//           setError(null);
-//         } catch (err) {
-//           setError(err);
-//           setResponse(null);
-//         }
-//         dispatch({ type: "SEARCHING", payload: false });
-//       };
-//       fetchData();
-//     }
-//   }, [url]);
-
-//   return { response, error };
-// };
-
-const fetchData = async (url, options, processor) => {
+const fetchData = async ({ url, options = {} }) => {
   try {
     const api = `${url}&APPID=${key}`;
+    console.log(api);
     const res = await fetch(api, options);
     const json = await res.json();
-    const processed = await processor(json);
-    return processed;
+    const currentProcessed = await currentProcessor(json);
+
+    const forecastRes = await fetch(
+      `http://api.openweathermap.org/data/2.5/forecast?id=${currentProcessed.id}&APPID=${key}`
+    );
+    const forecastJson = await forecastRes.json();
+    const forecastProcessed = await forecastProcessor(forecastJson);
+
+    return {
+      ...currentProcessed,
+      forecast: forecastProcessed,
+    };
   } catch (err) {
+    console.log(err);
     return err;
   }
 };

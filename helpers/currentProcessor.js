@@ -18,7 +18,6 @@ const currentProcessor = rawData => {
       country: sys.country,
       city: `${name}, ${sys.country}`,
     },
-    forecast: {},
   };
 };
 

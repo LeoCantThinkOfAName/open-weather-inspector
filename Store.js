@@ -4,14 +4,14 @@ import thunk from "redux-thunk";
 // reducers
 import { favoritesReducer } from "./reducers/favoriteReduce";
 import { toggleTheme } from "./reducers/themeReducer";
-import { sessionDataReducer } from "./reducers/sessionDataReducer";
+import { cacheReducer } from "./reducers/cacheReducer";
 import { uiReducer } from "./reducers/uiReducer";
 
 const store = createStore(
   combineReducers({
     theme: toggleTheme,
     favorites: favoritesReducer,
-    sessionData: sessionDataReducer,
+    cache: cacheReducer,
     ui: uiReducer,
   }),
   applyMiddleware(thunk)
