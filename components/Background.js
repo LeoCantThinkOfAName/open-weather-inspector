@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { ImageBackground, View, Dimensions, Animated } from "react-native";
+import {
+  ImageBackground,
+  View,
+  Dimensions,
+  Animated,
+  Easing,
+} from "react-native";
 import { useSelector } from "react-redux";
 
 // custom hooks
@@ -10,7 +16,7 @@ import styles from "../styles/main";
 
 const Background = ({ source, children }) => {
   const { theme } = useSelector(state => state);
-  const [animatedOpacity] = useState(new Animated.Value(0));
+  const [animatedOpacity] = useState(new Animated.Value(0.5));
   // const acc = useAccelerometer({
   //   interval: 16,
   //   availibility: true,
@@ -20,7 +26,8 @@ const Background = ({ source, children }) => {
   useEffect(() => {
     Animated.timing(animatedOpacity, {
       toValue: 1,
-      duration: 1000
+      duration: 5000,
+      easing: Easing.bezier(0.215, 0.61, 0.355, 1),
     }).start();
   }, [source]);
 
@@ -33,11 +40,11 @@ const Background = ({ source, children }) => {
             styles.background,
             {
               transform: [
-                { perspective: Dimensions.get("screen").width }
+                { perspective: Dimensions.get("screen").width },
                 // { rotateX: `${acc[0].y * 10}deg` },
                 // { rotateY: `${acc[0].x * 10}deg` }
-              ]
-            }
+              ],
+            },
           ]}
         >
           <View
