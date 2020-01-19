@@ -79,7 +79,7 @@ const App = () => {
       <Provider store={store}>
         <NavigationContainer>
           <Tab.Navigator tabBar={props => <TabBar {...props} />}>
-            <Tab.Screen name="Home" component={Home} />
+            <Tab.Screen name="Weather" component={Home} />
             <Tab.Screen name="Setting" component={SettingScreen} />
             <Tab.Screen name="Credit" component={CreditScreen} />
           </Tab.Navigator>
