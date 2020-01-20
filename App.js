@@ -23,7 +23,7 @@ import TabBar from "./components/TabBar";
 // helpers
 import {
   requestPermission,
-  requestLocation,
+  requestLocation
 } from "./helpers/requestPermission";
 import fetchData from "./helpers/fetchData";
 import currentProcessor from "./helpers/currentProcessor";
@@ -40,19 +40,19 @@ const Home = () => {
   const initialize = async () => {
     const permission = await requestPermission({
       permissionType: Permission.LOCATION,
-      errorMessage: "Permission for access location was denied",
+      errorMessage: "Permission for access location was denied"
     });
 
     if (permission.success) {
       const { coords } = await requestLocation();
       setLocation({
         lat: coords.latitude,
-        lon: coords.longitude,
+        lon: coords.longitude
       });
 
       const weather = await fetchData({
-        url: `http://api.openweathermap.org/data/2.5/weather?lat=${coords.latitude}&lon=${coords.longitude}`,
-        processor: currentProcessor,
+        lat: coords.latitude,
+        lon: coords.longitude
       });
 
       console.log(weather);
@@ -73,13 +73,13 @@ const Home = () => {
         initialRouteName="Home"
         drawerContentOptions={{
           itemStyle: {
-            margin: 0,
-          },
+            margin: 0
+          }
         }}
         drawerContent={CustomDrawer}
         drawerStyle={{
           backgroundColor: theme.white,
-          padding: 0,
+          padding: 0
         }}
         unmountInactiveScreens={true}
       >
@@ -89,7 +89,7 @@ const Home = () => {
           key={favorites ? favorites[0].id : null}
           initialParams={{
             id: favorites ? favorites[0].id : null,
-            city: favorites ? favorites[0].city : null,
+            city: favorites ? favorites[0].city : null
           }}
         />
         <Drawer.Screen
@@ -98,7 +98,7 @@ const Home = () => {
           key="current"
           initialParams={{
             id: null,
-            city: null,
+            city: null
           }}
         />
         {favorites.map(favorite => (
@@ -109,7 +109,7 @@ const Home = () => {
             initialParams={{
               id: favorite.id,
               city: favorite.city,
-              session: false,
+              session: false
             }}
           />
         ))}
