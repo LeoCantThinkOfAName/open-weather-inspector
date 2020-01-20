@@ -1,7 +1,7 @@
+import { API_KEY } from 'react-native-dotenv';
 import currentProcessor from "./currentProcessor";
 import forecastProcessor from "./forecastProcessor";
 
-const key = "e0e6bc3e4f76bd0cee424878945e0461";
 const currentWeatherApi = "http://api.openweathermap.org/data/2.5/weather";
 const forecastApi = "http://api.openweathermap.org/data/2.5/forecast";
 
@@ -33,7 +33,7 @@ const fetchData = (params = {}, currentWeather) => {
   const paramsStringified = Object.entries(params).map(entry => entry.join("=")).join("&");
 
   try {
-    const url = currentWeather ? `${forecastApi}?${paramsStringified}&APPID=${key}` : `${currentWeatherApi}?${paramsStringified}&APPID=${key}`
+    const url = currentWeather ? `${forecastApi}?${paramsStringified}&APPID=${API_KEY}` : `${currentWeatherApi}?${paramsStringified}&APPID=${API_KEY}`
     const res = await fetch(url);
     const json = await res.json();
     const processed = currentWeather ? forecastProcessor(json) : currentProcessor(json);
