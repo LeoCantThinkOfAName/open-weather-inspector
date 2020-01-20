@@ -14,7 +14,6 @@ import store from "./Store";
 import HomeScreen from "./screens/HomeScreen";
 import SettingScreen from "./screens/SettingScreen";
 import CreditScreen from "./screens/CreditScreen";
-import EmptyScreen from "./screens/EmptyScreen";
 
 // components
 import CustomDrawer from "./components/CustomDrawer";
@@ -26,7 +25,6 @@ import {
   requestLocation
 } from "./helpers/requestPermission";
 import fetchData from "./helpers/fetchData";
-import currentProcessor from "./helpers/currentProcessor";
 
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
