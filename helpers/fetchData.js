@@ -1,4 +1,4 @@
-import { API_KEY } from 'react-native-dotenv';
+import { API_KEY } from "react-native-dotenv";
 import currentProcessor from "./currentProcessor";
 import forecastProcessor from "./forecastProcessor";
 
@@ -29,21 +29,33 @@ const forecastApi = "http://api.openweathermap.org/data/2.5/forecast";
 //   }
 // };
 
-const fetchData = (params = {}, currentWeather) => {
-  const paramsStringified = Object.entries(params).map(entry => entry.join("=")).join("&");
-
+const fetching = async url => {
   try {
-    const url = currentWeather ? `${forecastApi}?${paramsStringified}&APPID=${API_KEY}` : `${currentWeatherApi}?${paramsStringified}&APPID=${API_KEY}`
     const res = await fetch(url);
     const json = await res.json();
-    const processed = currentWeather ? forecastProcessor(json) : currentProcessor(json);
+    return json;
+  } catch (error) {
+    return error;
+  }
+};
 
-    if(currentProcessor) return {currentWeather, forecast: processed};
-    fetching({id: processed.id}, processed);
-  } catch(error) {
+const fetchData = async (params = {}) => {
+  const paramsStringified = Object.entries(params)
+    .map(entry => entry.join("="))
+    .join("&");
+
+  try {
+    const currentUrl = `${currentWeatherApi}?${paramsStringified}&APPID=${API_KEY}`;
+    const currentRes = await fetching(currentUrl);
+    const currentProcessed = currentProcessor(currentRes);
+    const forecastUrl = `${forecastApi}?id=${currentProcessed.id}&APPID=${API_KEY}`;
+    const forecastRes = await fetching(forecastUrl);
+    const forecastProcessed = forecastProcessor(forecastRes);
+    return { ...currentProcessed, forecast: forecastProcessed };
+  } catch (error) {
     console.log(error);
     return error;
   }
-}
+};
 
 export default fetchData;

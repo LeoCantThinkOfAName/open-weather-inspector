@@ -1,7 +1,6 @@
 export default {
   tabBar: {
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, .5)",
     borderTopWidth: 1,
     borderTopColor: "rgba(200, 200, 200, .5)",
     bottom: 0,

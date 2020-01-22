@@ -5,6 +5,7 @@ import {
   Animated,
   ScrollView,
   BackHandler,
+  StatusBar
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSelector } from "react-redux";
@@ -22,7 +23,6 @@ import Forecast from "../components/Forecast";
 import CurrentWeather from "../components/CurrentWeather";
 
 // helpers
-import currentProcessor from "../helpers/currentProcessor";
 import conditionConverter from "../helpers/conditionConverter";
 import hexToRgb from "../helpers/hexToRgb";
 
@@ -31,30 +31,26 @@ import styles from "../styles/main";
 
 const HomeScreen = ({ route, navigation }) => {
   const {
-    params: { id, city },
+    params: { id, city }
   } = route;
-  // const forecast = useFetch({
-  //   url: id
-  //     ? `http://api.openweathermap.org/data/2.5/weather?id=${id}`
-  //     : `http://api.openweathermap.org/data/2.5/weather?q=${city}`,
-  //   processor: currentProcessor,
-  // });
+  const { cache } = useSelector(state => state);
   const { theme } = useSelector(state => state);
   const { ui } = useSelector(state => state);
   const backHandler = useRef(null);
   const [animtePos] = useState(new Animated.Value(100));
   const [animteOpacity] = useState(new Animated.Value(0));
+  const weather = cache.find(data => data.id === id);
 
   useEffect(() => {
     Animated.parallel([
       Animated.timing(animtePos, {
         toValue: 0,
-        duration: 1000,
+        duration: 1000
       }),
       Animated.timing(animteOpacity, {
         toValue: 1,
-        duration: 1000,
-      }),
+        duration: 1000
+      })
     ]).start();
   }, [route]);
 
@@ -66,11 +62,6 @@ const HomeScreen = ({ route, navigation }) => {
     return () => backHandler.current.remove();
   }, []);
 
-  // useEffect(() => {
-  //   if (forecast.response !== null || forecast.error !== null)
-  //     navigation.closeDrawer();
-  // }, [forecast]);
-
   const handleBackPress = () => {
     if (!navigation.isFocused) {
       return false;
@@ -78,88 +69,75 @@ const HomeScreen = ({ route, navigation }) => {
 
     if (navigation.canGoBack()) {
       navigation.dispatch({
-        ...CommonActions.goBack(),
+        ...CommonActions.goBack()
       });
     }
     return true;
   };
 
-  // return (
-  //   <View style={styles.container}>
-  //     <Background
-  //       source={
-  //         forecast.response && !ui.searchLoadin
-  //           ? conditionConverter(forecast.response.weather).image
-  //           : null
-  //       }
-  //     />
-  //     <SafeAreaView style={styles.mainScroll}>
-  //       <ScrollView
-  //         showsVerticalScrollIndicator={false}
-  //         style={[styles.mainScroll]}
-  //       >
-  //         <LinearGradient
-  //           colors={[
-  //             "rgba(0, 0, 0, 0)",
-  //             "rgba(0, 0, 0, 0)",
-  //             "rgba(0, 0, 0, 0)",
-  //             hexToRgb(theme.white, 0.5),
-  //             hexToRgb(theme.white, 1),
-  //           ]}
-  //         >
-  //           <Wrapper>
-  //             <View style={styles.mainArea}>
-  //               <View style={styles.alignCenter}>
-  //                 <Animated.View
-  //                   style={{
-  //                     transform: [{ translateY: animtePos }],
-  //                     opacity: animteOpacity,
-  //                     alignItems: "center",
-  //                   }}
-  //                 >
-  //                   <View style={styles.header}>
-  //                     <ThemeText style={styles.heading}>
-  //                       {forecast.error && `Can Not Found ${city}`}
-  //                       {forecast.response && forecast.response.location.city}
-  //                     </ThemeText>
-  //                     {!forecast.error && (
-  //                       <FavButton
-  //                         route={route}
-  //                         id={
-  //                           forecast.response
-  //                             ? forecast.response.id
-  //                             : route.params.id
-  //                         }
-  //                       />
-  //                     )}
-  //                   </View>
-  //                   <ThemeText>
-  //                     {forecast.response && forecast.response.description}
-  //                     {forecast.error && "Please Check Your Search Term"}
-  //                   </ThemeText>
-  //                 </Animated.View>
-  //               </View>
-  //               {forecast.response && (
-  //                 <CurrentWeather
-  //                   temp={forecast.response.temp}
-  //                   weather={forecast.response.weather}
-  //                 />
-  //               )}
-  //             </View>
-  //             <View>
-  //               {forecast.loading && <ThemeText>loading</ThemeText>}
-  //               {forecast.response && <Forecast id={forecast.response.id} />}
-  //             </View>
-  //           </Wrapper>
-  //         </LinearGradient>
-  //       </ScrollView>
-  //     </SafeAreaView>
-  //   </View>
-  // );
-
   return (
-    <View>
-      <ThemeText>hello</ThemeText>
+    <View style={styles.container}>
+      <Background
+        source={
+          weather && !ui.searchLoadin
+            ? conditionConverter(weather.weather).image
+            : null
+        }
+      />
+      <SafeAreaView style={styles.mainScroll}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={[styles.mainScroll]}
+        >
+          <LinearGradient
+            colors={[
+              "rgba(0, 0, 0, 0)",
+              "rgba(0, 0, 0, 0)",
+              "rgba(0, 0, 0, 0)",
+              hexToRgb(theme.white, 0.5),
+              hexToRgb(theme.white, 1)
+            ]}
+          >
+            <Wrapper>
+              <View style={styles.mainArea}>
+                <View style={styles.alignCenter}>
+                  <Animated.View
+                    style={{
+                      transform: [{ translateY: animtePos }],
+                      opacity: animteOpacity,
+                      alignItems: "center"
+                    }}
+                  >
+                    <View style={styles.header}>
+                      <ThemeText style={styles.heading}>
+                        {!weather && `Can Not Found ${city}`}
+                        {weather && weather.location.city}
+                      </ThemeText>
+                      {weather && (
+                        <FavButton
+                          route={route}
+                          id={weather ? weather.id : id}
+                        />
+                      )}
+                    </View>
+                    <ThemeText>
+                      {weather && weather.description}
+                      {!weather && "Please Check Your Search Term"}
+                    </ThemeText>
+                  </Animated.View>
+                </View>
+                {weather && (
+                  <CurrentWeather
+                    temp={weather.temp}
+                    weather={weather.weather}
+                  />
+                )}
+              </View>
+              <View>{weather && <Forecast forecast={weather.forecast} />}</View>
+            </Wrapper>
+          </LinearGradient>
+        </ScrollView>
+      </SafeAreaView>
     </View>
   );
 };

@@ -14,7 +14,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
 
   return (
     <View
-      style={[styles.tabBar, { backgroundColor: hexToRgb(theme.white, 0.5) }]}
+      style={[styles.tabBar, { backgroundColor: hexToRgb(theme.white, 0.8) }]}
     >
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
@@ -41,7 +41,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
         const onPress = () => {
           const event = navigation.emit({
             type: "tabPress",
-            target: route.key,
+            target: route.key
           });
 
           if (!isFocused && !event.defaultPrevented) {
@@ -52,7 +52,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
         const onLongPress = () => {
           navigation.emit({
             type: "tabLongPress",
-            target: route.key,
+            target: route.key
           });
         };
 

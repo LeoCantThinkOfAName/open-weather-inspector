@@ -1,21 +1,3 @@
-// {
-//   31: {
-//     data: [
-//       {
-//         temp: {
-//           main: 30,
-//           high: 32,
-//           low: 28,
-//         },
-//         weather: {
-//           id: 200
-//         },
-//       },
-//       {...}
-//     ]
-//   }, {...}
-// }
-
 // [
 //   {
 //     title: 31,
@@ -43,7 +25,7 @@ const forecastProcessor = rawData => {
     if (day == undefined) {
       response.push({
         title: date,
-        data: [],
+        data: []
       });
     }
 
@@ -51,12 +33,12 @@ const forecastProcessor = rawData => {
       temp: {
         main: data.main.temp,
         high: data.main.temp_max,
-        low: data.main.temp_min,
+        low: data.main.temp_min
       },
       weather: {
-        id: data.weather[0].id,
+        id: data.weather[0].id
       },
-      date: data.dt,
+      date: data.dt
     });
   });
 
