@@ -5,7 +5,7 @@ import {
   Animated,
   ScrollView,
   BackHandler,
-  StatusBar
+  StatusBar,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSelector } from "react-redux";
@@ -31,7 +31,7 @@ import styles from "../styles/main";
 
 const HomeScreen = ({ route, navigation }) => {
   const {
-    params: { id, city }
+    params: { id, city },
   } = route;
   const { cache } = useSelector(state => state);
   const { theme } = useSelector(state => state);
@@ -45,12 +45,12 @@ const HomeScreen = ({ route, navigation }) => {
     Animated.parallel([
       Animated.timing(animtePos, {
         toValue: 0,
-        duration: 1000
+        duration: 1000,
       }),
       Animated.timing(animteOpacity, {
         toValue: 1,
-        duration: 1000
-      })
+        duration: 1000,
+      }),
     ]).start();
   }, [route]);
 
@@ -69,7 +69,7 @@ const HomeScreen = ({ route, navigation }) => {
 
     if (navigation.canGoBack()) {
       navigation.dispatch({
-        ...CommonActions.goBack()
+        ...CommonActions.goBack(),
       });
     }
     return true;
@@ -94,8 +94,8 @@ const HomeScreen = ({ route, navigation }) => {
               "rgba(0, 0, 0, 0)",
               "rgba(0, 0, 0, 0)",
               "rgba(0, 0, 0, 0)",
-              hexToRgb(theme.white, 0.5),
-              hexToRgb(theme.white, 1)
+              hexToRgb(theme.white, 0.8),
+              hexToRgb(theme.white, 1),
             ]}
           >
             <Wrapper>
@@ -105,7 +105,7 @@ const HomeScreen = ({ route, navigation }) => {
                     style={{
                       transform: [{ translateY: animtePos }],
                       opacity: animteOpacity,
-                      alignItems: "center"
+                      alignItems: "center",
                     }}
                   >
                     <View style={styles.header}>
@@ -114,10 +114,7 @@ const HomeScreen = ({ route, navigation }) => {
                         {weather && weather.location.city}
                       </ThemeText>
                       {weather && (
-                        <FavButton
-                          route={route}
-                          id={weather ? weather.id : id}
-                        />
+                        <FavButton route={route} data={{ id, city }} />
                       )}
                     </View>
                     <ThemeText>

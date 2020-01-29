@@ -1,3 +1,4 @@
+import * as SQLite from 'expo-sqlite';
 import React from "react";
 import { Provider } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
@@ -16,6 +17,7 @@ import CreditScreen from "./screens/CreditScreen";
 import TabBar from "./components/TabBar";
 
 const Tab = createBottomTabNavigator();
+export const db = SQLite.openDatabase("db.app");
 
 const App = () => {
   return (

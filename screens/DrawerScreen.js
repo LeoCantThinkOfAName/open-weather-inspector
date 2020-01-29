@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AppLoading } from "expo";
-import * as Permission from "expo-permissions";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
 // screens
@@ -11,11 +10,10 @@ import HomeScreen from "./HomeScreen";
 import CustomDrawer from "../components/CustomDrawer";
 
 // helpers
-import {
-  requestPermission,
-  requestLocation
-} from "../helpers/requestPermission";
-import fetchData from "../helpers/fetchData";
+import initialize from "../helpers/initialize";
+
+// reducer
+import { ADD_WEATHER_DATA } from "../reducers/cacheReducer";
 
 const Drawer = createDrawerNavigator();
 
@@ -26,30 +24,17 @@ const DrawerScreen = () => {
   const [current, setCurrent] = useState(null);
   const dispatch = useDispatch();
 
-  const initialize = async () => {
-    const permission = await requestPermission({
-      permissionType: Permission.LOCATION,
-      errorMessage: "Permission for access location was denied"
-    });
-
-    if (permission.success) {
-      const req = await requestLocation();
-
-      if (req.coords) {
-        const weather = await fetchData({
-          lat: req.coords.latitude,
-          lon: req.coords.longitude
-        });
-        setCurrent({ id: weather.id, city: weather.location.city });
-        dispatch({ type: "ADD_WEATHER_DATA", payload: weather });
-      }
-    }
-  };
-
   if (!ready) {
     return (
       <AppLoading
-        startAsync={() => initialize()}
+        startAsync={async () => {
+          const initData = await initialize(favorites);
+          setCurrent(initData.current);
+          dispatch({
+            type: ADD_WEATHER_DATA,
+            payload: [initData.current, ...initData.favorites],
+          });
+        }}
         onFinish={() => setReady(true)}
         onError={err => console.warn(err)}
       />
@@ -60,13 +45,13 @@ const DrawerScreen = () => {
         initialRouteName={current ? "Current Location" : "Home"}
         drawerContentOptions={{
           itemStyle: {
-            margin: 0
-          }
+            margin: 0,
+          },
         }}
         drawerContent={CustomDrawer}
         drawerStyle={{
           backgroundColor: theme.white,
-          padding: 0
+          padding: 0,
         }}
         unmountInactiveScreens={true}
       >
@@ -80,7 +65,7 @@ const DrawerScreen = () => {
           }
           initialParams={{
             id: favorites ? favorites[0].id : null,
-            city: favorites ? favorites[0].city : null
+            city: favorites ? favorites[0].city : null,
           }}
         />
         <Drawer.Screen
@@ -89,7 +74,7 @@ const DrawerScreen = () => {
           key="current"
           initialParams={{
             id: current.id,
-            city: current.city
+            city: current.city,
           }}
         />
         {favorites.map(favorite => (
@@ -99,7 +84,7 @@ const DrawerScreen = () => {
             key={favorite.id}
             initialParams={{
               id: favorite.id,
-              city: favorite.city
+              city: favorite.city,
             }}
           />
         ))}

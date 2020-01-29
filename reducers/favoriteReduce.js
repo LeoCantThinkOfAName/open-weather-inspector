@@ -13,7 +13,7 @@ export const favoritesReducer = (state = initialState, action) => {
     case ADD_FAVORITE:
       return [...state, action.payload];
     case REMOVE_FAVORITE:
-      return state.filter(city => city.ID !== action.payload.ID);
+      return state.filter(city => city.id !== action.payload);
     default:
       return state;
   }

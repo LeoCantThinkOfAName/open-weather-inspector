@@ -1,18 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  TextInput,
-  View,
-  Animated,
-  ScrollView,
-  SafeAreaView,
-  TouchableOpacity,
-} from "react-native";
+import { TextInput, View, Animated } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { Feather, AntDesign } from "@expo/vector-icons";
 
 // components
 import HorizontalLine from "./HorizontalLine";
-import ThemeText from "./ThemeText";
+import Suggestions from "./Suggestions";
 
 // helpers
 import hexToRgb from "../helpers/hexToRgb";
@@ -23,7 +16,7 @@ import styles from "../styles/main";
 
 const Search = ({ navigation }) => {
   const { theme } = useSelector(state => state);
-  const { sessionData } = useSelector(state => state);
+  const { cache } = useSelector(state => state);
   const { ui } = useSelector(state => state);
   const [text, setText] = useState("");
   const [cities, setCities] = useState([]);
@@ -109,7 +102,7 @@ const Search = ({ navigation }) => {
         )}
       </View>
       {cities.length > 0 && (
-        <CitySuggestion
+        <Suggestions
           cities={cities}
           setText={setText}
           setCities={setCities}
@@ -119,53 +112,6 @@ const Search = ({ navigation }) => {
       )}
       <HorizontalLine />
     </View>
-  );
-};
-
-const CitySuggestion = ({ cities, setText, setCities, theme, navigation }) => {
-  const dispatch = useDispatch();
-  const handlePress = city => {
-    setText(city);
-    setCities([]);
-    dispatch({ type: "ADD_SCREEN", payload: { city: city } });
-  };
-
-  return (
-    <SafeAreaView
-      style={{
-        position: "absolute",
-        backgroundColor: theme.black,
-        top: 60,
-        maxHeight: 300,
-        left: 0,
-        width: 280,
-        zIndex: 100,
-      }}
-    >
-      <ScrollView persistentScrollbar={true}>
-        {cities.map((city, index) => (
-          <TouchableOpacity
-            key={city.id}
-            onPress={() => handlePress(`${city.city}, ${city.iso2}`)}
-            style={{
-              height: 60,
-              justifyContent: "center",
-              paddingHorizontal: 15,
-              backgroundColor:
-                index % 2
-                  ? hexToRgb(theme.white, 0.95)
-                  : hexToRgb(theme.white, 0.98),
-            }}
-          >
-            <View>
-              <ThemeText>
-                {city.city}, {city.iso2}
-              </ThemeText>
-            </View>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-    </SafeAreaView>
   );
 };
 
