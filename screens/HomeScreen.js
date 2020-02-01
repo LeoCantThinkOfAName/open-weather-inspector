@@ -5,11 +5,11 @@ import {
   Animated,
   ScrollView,
   BackHandler,
-  StatusBar,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSelector } from "react-redux";
 import { CommonActions } from "@react-navigation/native";
+import * as SQLite from "expo-sqlite";
 
 // custom hooks
 // import useFetch from "../helpers/useFetch";
@@ -28,6 +28,8 @@ import hexToRgb from "../helpers/hexToRgb";
 
 // styles
 import styles from "../styles/main";
+
+const db = SQLite.openDatabase("weatherapp.db");
 
 const HomeScreen = ({ route, navigation }) => {
   const {

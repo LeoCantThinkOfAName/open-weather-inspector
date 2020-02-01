@@ -1,8 +1,10 @@
-// data
-import {db} from '../App';
+import { DB_NAME } from "react-native-dotenv";
+import * as SQLite from "expo-sqlite";
+
+const db = SQLite.openDatabase(DB_NAME);
 
 const searchCity = input => {
-  db.transaction((tx) => {
+  db.transaction(tx => {
     tx.executeSql("CREATE TABLE IF NOT EXIST LOGS (id unique, log)");
   });
   return [];

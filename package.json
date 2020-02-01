@@ -37,7 +37,9 @@
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
-    "expo-sqlite": "~8.0.0"
+    "expo-sqlite": "~8.0.0",
+    "expo-file-system": "~8.0.0",
+    "expo-asset": "~8.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.3",
