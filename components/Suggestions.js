@@ -15,23 +15,23 @@ import fetchData from "../helpers/fetchData";
 const Suggestions = ({ cities, setText, setCities, theme, navigation }) => {
   const { cache } = useSelector(state => state);
   const dispatch = useDispatch();
-  const handlePress = async city => {
+  const handlePress = async (city, id) => {
     setText(city);
     setCities([]);
 
-    const cachedCity = await cache.find(cached => cached.id === cities.id);
+    const cachedCity = await cache.find(cached => cached.id === id);
 
     if (!cachedCity) {
       console.log("fetch");
       const data = await fetchData({
-        id: cities.id,
+        id: id,
       });
       dispatch({ type: ADD_WEATHER_DATA, payload: [data] });
       navigation.navigate({
         name: "Home",
         params: {
-          city: data.city,
-          id: data.id,
+          city: city,
+          id: id,
         },
       });
     } else {
@@ -61,7 +61,9 @@ const Suggestions = ({ cities, setText, setCities, theme, navigation }) => {
         {cities.map((city, index) => (
           <TouchableOpacity
             key={city.id}
-            onPress={() => handlePress(`${city.city}, ${city.iso2}`)}
+            onPress={() =>
+              handlePress(`${city.name}, ${city.country}`, city.id)
+            }
             style={{
               height: 60,
               justifyContent: "center",
@@ -74,7 +76,7 @@ const Suggestions = ({ cities, setText, setCities, theme, navigation }) => {
           >
             <View>
               <ThemeText>
-                {city.city}, {city.iso2}
+                {city.name}, {city.country}
               </ThemeText>
             </View>
           </TouchableOpacity>

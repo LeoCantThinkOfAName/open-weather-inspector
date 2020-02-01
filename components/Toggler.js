@@ -13,7 +13,7 @@ import styles from "../styles/main";
 
 const Toggler = ({
   label = "Label Goes Here!",
-  description = "Description Goes Here!"
+  description = "Description Goes Here!",
 }) => {
   const { theme } = useSelector(state => state);
   const [toggle, setToggle] = useState(true);
@@ -22,13 +22,9 @@ const Toggler = ({
   useEffect(() => {
     Animated.timing(left, {
       toValue: toggle ? 2 : 60 - 22 - 2 - 2 - 2,
-      duration: 100
+      duration: 100,
     }).start();
   }, [toggle]);
-
-  useEffect(() => {
-    console.log("rerendered: ", theme);
-  }, [theme]);
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -45,8 +41,8 @@ const Toggler = ({
             styles.togglerButton,
             {
               backgroundColor: hexToRgb(theme.white, 0.5),
-              borderColor: theme.black
-            }
+              borderColor: theme.black,
+            },
           ]}
           onPress={() => handleToggle()}
         >
@@ -55,8 +51,8 @@ const Toggler = ({
               styles.togglerIndicator,
               {
                 backgroundColor: theme.black,
-                left
-              }
+                left,
+              },
             ]}
           ></Animated.View>
         </TouchableOpacity>

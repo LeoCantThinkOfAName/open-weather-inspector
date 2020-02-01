@@ -1,16 +1,16 @@
-import { DB_NAME } from "react-native-dotenv";
-import * as SQLite from "expo-sqlite";
+import { cities_db } from "./operateDB";
 
-const db = SQLite.openDatabase(DB_NAME);
-
-const searchCity = input => {
-  db.transaction(tx => {
-    tx.executeSql("CREATE TABLE IF NOT EXIST LOGS (id unique, log)");
+const searchCity = async input => {
+  return new Promise((resolve, reject) => {
+    cities_db.transaction(tx => {
+      tx.executeSql(
+        "SELECT * FROM cities WHERE name LIKE ?",
+        [`${input}%`],
+        (tx, { rows }) => resolve(rows._array),
+        reject
+      );
+    });
   });
-  return [];
-  // const reg = new RegExp(input, "i");
-  // const filtered = cities.filter(city => city.name.match(reg));
-  // return filtered.slice(0, 10);
 };
 
 export default searchCity;

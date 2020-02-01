@@ -6,8 +6,12 @@ import { useSelector } from "react-redux";
 import Wrapper from "../components/Wrapper";
 import Toggler from "../components/Toggler";
 import CheckBox from "../components/CheckBox";
+import CustomButton from "../components/CustomButton";
 import Background from "../components/Background";
 import ThemeText from "../components/ThemeText";
+
+// helpers
+import fetchCitiesData from "../helpers/fetchCittiesData";
 
 // styles
 import styles from "../styles/main";
@@ -39,6 +43,13 @@ const SettingScreen = () => {
           </View>
           <View style={[styles.listItem, { borderBottomColor: theme.black }]}>
             <CheckBox description="Ignore Device Theme" />
+          </View>
+          <View style={[styles.listItem, { borderBottomColor: theme.black }]}>
+            <CustomButton
+              text="Download cities data"
+              label="Improve search experience, and decrese request time."
+              fn={() => fetchCitiesData()}
+            />
           </View>
         </View>
       </Wrapper>

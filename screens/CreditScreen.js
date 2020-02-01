@@ -57,48 +57,7 @@ const credits = [
   },
 ];
 
-import * as SQLite from "expo-sqlite";
-import * as FileSystem from "expo-file-system";
-import { Asset } from "expo-asset";
-import { DB_NAME } from "react-native-dotenv";
-const db = SQLite.openDatabase(DB_NAME);
-
 const CreditScreen = () => {
-  // FileSystem.downloadAsync(
-  //   Asset.fromModule(require("../assets/weatherapp.db")).uri,
-  //   `${FileSystem.documentDirectory}SQLite/${DB_NAME}`
-  // )
-  //   .then(stuff => {
-  //     console.log(stuff);
-  //   })
-  //   .catch(err => console.log(err));
-
-  db.transaction(tx => {
-    tx.executeSql(
-      "select * from cities where name like 'Taipei%'",
-      [],
-      (tx, result) => {
-        console.log(result);
-      },
-      (tx, err) => {
-        console.log("error: ", err);
-      }
-    );
-  });
-
-  // db.transaction(tx => {
-  //   tx.executeSql(
-  //     "CREATE TABLE IF NOT EXISTS test (id, content)",
-  //     [],
-  //     (tx, result) => {
-  //       console.log(result);
-  //     },
-  //     (tx, err) => {
-  //       console.log(err);
-  //     }
-  //   );
-  // });
-
   return (
     <Wrapper>
       <Background source={require("../assets/sky.jpg")} />

@@ -8,6 +8,7 @@ import tabbar from "./tabbar";
 import drawer from "./drawer";
 import home from "./home";
 import search from "./search";
+import modal from "./modal";
 
 const styles = StyleSheet.create({
   heading: {
@@ -109,6 +110,7 @@ const styles = StyleSheet.create({
   ...drawer,
   ...home,
   ...search,
+  ...modal,
 });
 
 export default styles;

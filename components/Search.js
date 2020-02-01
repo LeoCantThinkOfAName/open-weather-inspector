@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
-import { TextInput, View, Animated } from "react-native";
+import React, { useState, useRef } from "react";
+import { TextInput, View } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { Feather, AntDesign } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 
 // components
 import HorizontalLine from "./HorizontalLine";
 import Suggestions from "./Suggestions";
+import Spinner from "./Spinner";
 
 // helpers
 import hexToRgb from "../helpers/hexToRgb";
@@ -21,27 +22,21 @@ const Search = ({ navigation }) => {
   const [text, setText] = useState("");
   const [cities, setCities] = useState([]);
   const inter = useRef(null);
-  const [looping] = useState(new Animated.Value(0));
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    Animated.loop(
-      Animated.timing(looping, {
-        toValue: 1,
-        duration: 500,
-      }),
-      { iterations: -1 }
-    ).start();
-  }, []);
+  const getCities = async input => {
+    const cities = await searchCity(input);
+    setCities(cities.slice(0, 10));
+  };
 
-  const handleChange = input => {
+  const handleChange = async input => {
     clearTimeout(inter.current);
 
     setText(input);
 
     if (input !== null && input !== undefined && input !== "") {
       inter.current = setTimeout(() => {
-        setCities(searchCity(input));
+        getCities(input);
       }, 500);
     } else {
       setCities([]);
@@ -77,29 +72,7 @@ const Search = ({ navigation }) => {
           onChangeText={handleChange}
           onSubmitEditing={handleSubmit}
         />
-        {ui.searchPending && (
-          <Animated.View
-            style={[
-              styles.searchSpinner,
-              {
-                transform: [
-                  {
-                    rotate: looping.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: ["0deg", "360deg"],
-                    }),
-                  },
-                ],
-              },
-            ]}
-          >
-            <AntDesign
-              size={15}
-              name="loading1"
-              color={hexToRgb(theme.black, 0.3)}
-            />
-          </Animated.View>
-        )}
+        {ui.searchPending && <Spinner />}
       </View>
       {cities.length > 0 && (
         <Suggestions
