@@ -56,6 +56,8 @@ const CustomButton = ({ label, text, fn }) => {
               styles.dialog,
               {
                 backgroundColor: theme.white,
+                borderColor: hexToRgb(theme.black, 0.25),
+                borderWidth: 1,
               },
             ]}
           >
