@@ -29,8 +29,6 @@ import hexToRgb from "../helpers/hexToRgb";
 // styles
 import styles from "../styles/main";
 
-const db = SQLite.openDatabase("weatherapp.db");
-
 const HomeScreen = ({ route, navigation }) => {
   const {
     params: { id, city },

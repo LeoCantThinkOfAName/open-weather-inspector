@@ -11,7 +11,7 @@ import Background from "../components/Background";
 import ThemeText from "../components/ThemeText";
 
 // helpers
-import fetchCitiesData from "../helpers/fetchCittiesData";
+import { fetchCitiesData } from "../helpers/operateDB";
 
 // styles
 import styles from "../styles/main";
