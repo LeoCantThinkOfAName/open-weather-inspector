@@ -1,4 +1,9 @@
-import { CITIES_DB, WEATHERAPP_DB, CITIES_DB_URL } from "react-native-dotenv";
+import {
+  CITIES_DB,
+  WEATHERAPP_DB,
+  CITIES_DB_URL,
+  FAV_TABLE,
+} from "react-native-dotenv";
 import * as FileSystem from "expo-file-system";
 import * as SQLite from "expo-sqlite";
 
@@ -30,3 +35,49 @@ export const fetchCitiesData = async () => {
     };
   }
 };
+
+const searchCity = async input => {
+  return new Promise((resolve, reject) => {
+    cities_db.transaction(tx => {
+      tx.executeSql(
+        "SELECT * FROM cities WHERE name LIKE ?",
+        [`${input}%`],
+        (tx, { rows }) => resolve(rows._array),
+        reject
+      );
+    });
+  });
+};
+
+export const insertFavorite = data => {
+  return new Promise((resolve, reject) => {
+    main_db.transaction(tx => {
+      tx.executeSql(`CREATE TABLE IF NOT EXISTS ${FAV_TABLE} (id, city)`);
+      tx.executeSql(
+        `INSERT INTO ${FAV_TABLE} (id, city) VALUES (${data.id}, '${data.city}')`,
+        [],
+        (tx, result) => {
+          resolve(data);
+        },
+        reject
+      );
+    });
+  });
+};
+
+export const deleteFavorite = id => {
+  return new Promise((resolve, reject) => {
+    main_db.transaction(tx => {
+      tx.executeSql(
+        `DELETE FROM ${FAV_TABLE} WHERE id=${id}`,
+        [],
+        (tx, result) => {
+          resolve(id);
+        },
+        reject
+      );
+    });
+  });
+};
+
+export const getAllFavorites = () => {};

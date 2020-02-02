@@ -19,10 +19,9 @@ const Items = ({ state: { routes }, navigation, descriptors }) => {
           navigation.closeDrawer();
           navigation.jumpTo(route.name);
         };
-
         return (
           route.name !== "Home" &&
-          !route.params.session && (
+          route.params.fav && (
             <TouchableOpacity
               key={route.key}
               style={[

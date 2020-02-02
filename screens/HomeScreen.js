@@ -114,7 +114,11 @@ const HomeScreen = ({ route, navigation }) => {
                         {weather && weather.location.city}
                       </ThemeText>
                       {weather && (
-                        <FavButton route={route} data={{ id, city }} />
+                        <FavButton
+                          route={route}
+                          data={{ id, city }}
+                          navigation={navigation}
+                        />
                       )}
                     </View>
                     <ThemeText>

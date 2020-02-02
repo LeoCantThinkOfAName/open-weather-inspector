@@ -29,6 +29,7 @@ const Hourly = ({ days }) => {
       <ThemeText style={[styles.heading, styles.alignLeft]}>
         Hourly Forecast
       </ThemeText>
+
       <HorizontalLine />
       <SafeAreaView>
         <SectionList

@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 
 // reducers
-import { favoritesReducer } from "./reducers/favoriteReduce";
+import { favoritesReducer } from "./reducers/favorite/favoriteReducer";
 import { toggleTheme } from "./reducers/themeReducer";
 import { cacheReducer } from "./reducers/cacheReducer";
 import { uiReducer } from "./reducers/uiReducer";

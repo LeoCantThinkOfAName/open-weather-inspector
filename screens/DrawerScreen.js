@@ -59,13 +59,13 @@ const DrawerScreen = () => {
           name="Home"
           component={HomeScreen}
           key={
-            favorites
+            favorites.length > 0
               ? `${favorites[0].id}_${new Date().getTime()}`
               : new Date().getTime()
           }
           initialParams={{
-            id: favorites ? favorites[0].id : null,
-            city: favorites ? favorites[0].city : null,
+            id: favorites.length > 0 ? favorites[0].id : null,
+            city: favorites.length > 0 ? favorites[0].city : null,
           }}
         />
         <Drawer.Screen
@@ -74,7 +74,8 @@ const DrawerScreen = () => {
           key="current"
           initialParams={{
             id: current.id,
-            city: current.city,
+            city: current.location.city,
+            fav: true,
           }}
         />
         {favorites.map(favorite => (
@@ -85,6 +86,7 @@ const DrawerScreen = () => {
             initialParams={{
               id: favorite.id,
               city: favorite.city,
+              fav: favorite.fav,
             }}
           />
         ))}

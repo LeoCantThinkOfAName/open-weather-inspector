@@ -12,8 +12,12 @@ import Spinner from "./Spinner";
 import hexToRgb from "../helpers/hexToRgb";
 import searchCity from "../helpers/searchCity";
 
+// reducer
+import { ADD_WEATHER_DATA } from "../reducers/cacheReducer";
+
 // styles
 import styles from "../styles/main";
+import fetchData from "../helpers/fetchData";
 
 const Search = ({ navigation }) => {
   const { theme } = useSelector(state => state);
@@ -21,8 +25,8 @@ const Search = ({ navigation }) => {
   const { ui } = useSelector(state => state);
   const [text, setText] = useState("");
   const [cities, setCities] = useState([]);
-  const inter = useRef(null);
   const dispatch = useDispatch();
+  const inter = useRef(null);
 
   const getCities = async input => {
     const cities = await searchCity(input);
@@ -43,10 +47,21 @@ const Search = ({ navigation }) => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setCities([]);
-    if (sessionScreen.find(screen => screen.city === text) === undefined) {
-      dispatch({ type: "ADD_SCREEN", payload: { city: text } });
+    if (cache.find(cacheData => cacheData.city === text) === undefined) {
+      const data = await fetchData({ q: text });
+      dispatch({ type: ADD_WEATHER_DATA, payload: [data] });
+      navigation.navigate({
+        name: "Home",
+        params: {
+          city: data.location.city,
+          id: data.id,
+        },
+      });
+    } else {
+      navigation.closeDrawer();
+      navigation.jumpTo(text);
     }
   };
 

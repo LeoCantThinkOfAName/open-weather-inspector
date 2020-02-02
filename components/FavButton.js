@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { TouchableOpacity } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
@@ -7,45 +7,57 @@ import { FontAwesome } from "@expo/vector-icons";
 import themeVar from "../styles/variables";
 import styles from "../styles/main";
 
-// reducers
-import { ADD_FAVORITE, REMOVE_FAVORITE } from "../reducers/favoriteReduce";
+// actions
+import {
+  insertFavoriteToDB,
+  removeFavoriteFromDB,
+} from "../reducers/favorite/favoriteAction";
 
-const FavButton = ({ data }) => {
+const FavButton = ({ route, data, navigation }) => {
   const { id, city } = data;
   const { favorites } = useSelector(state => state);
   const { theme } = useSelector(state => state);
   const dispatch = useDispatch();
-  const faved = favorites.find(fav => fav.id === id) ? true : false;
-  const [localFav, setLocalFav] = useState(faved);
-
-  const handlePress = () => {
-    if (localFav) {
-      setLocalFav(false);
-    } else {
-      setLocalFav(true);
-
-      if (!faved) {
-        dispatch({
-          type: ADD_FAVORITE,
-          payload: {
-            city,
-            id,
-          },
-        });
-      }
-    }
-  };
+  const favedItem = favorites.find(fav => fav.id === id);
+  const faved = favedItem ? favedItem.fav : false;
 
   useEffect(() => {
-    setLocalFav(faved);
-  }, [city]);
+    if (faved) {
+      navigation.closeDrawer();
+      navigation.jumpTo(city);
+    }
+
+    if (route.name !== "Current Location" && !faved) {
+      navigation.setParams({ id, city, fav: false });
+    }
+  }, [favorites]);
+
+  const handlePress = () => {
+    if (faved) {
+      dispatch(removeFavoriteFromDB(id));
+    }
+
+    if (!faved) {
+      dispatch(
+        insertFavoriteToDB(
+          {
+            city,
+            id,
+            fav: true,
+          },
+          favorites
+        )
+      );
+      navigation.setParams({ id, city, fav: true });
+    }
+  };
 
   return (
     <TouchableOpacity style={styles.favButton} onPress={handlePress}>
       <FontAwesome
         size={25}
-        color={localFav ? themeVar.red : theme.black}
-        name={localFav ? "heart" : "heart-o"}
+        color={faved ? themeVar.red : theme.black}
+        name={faved ? "heart" : "heart-o"}
         style={{
           textShadowColor: theme.white,
           textShadowRadius: 3,
