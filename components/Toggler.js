@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { View, TouchableOpacity, Animated } from "react-native";
 import { useSelector } from "react-redux";
 
@@ -14,10 +15,13 @@ import styles from "../styles/main";
 const Toggler = ({
   label = "Label Goes Here!",
   description = "Description Goes Here!",
+  value,
+  action,
 }) => {
   const { theme } = useSelector(state => state);
-  const [toggle, setToggle] = useState(true);
+  const [toggle, setToggler] = useState(value);
   const [left] = useState(new Animated.Value(2));
+  const dispatch = useDispatch();
 
   useEffect(() => {
     Animated.timing(left, {
@@ -27,7 +31,8 @@ const Toggler = ({
   }, [toggle]);
 
   const handleToggle = () => {
-    setToggle(!toggle);
+    dispatch(action(!value));
+    setToggler(!toggle);
   };
 
   return (
