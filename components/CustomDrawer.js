@@ -12,7 +12,7 @@ import styles from "../styles/main";
 
 const Items = ({ state: { routes }, navigation, descriptors }) => {
   return (
-    <View>
+    <View style={styles.suggestionWrapper}>
       {routes.map((route, index) => {
         const focused = descriptors[route.key].navigation.isFocused();
         const handlePress = () => {
@@ -39,7 +39,7 @@ const Items = ({ state: { routes }, navigation, descriptors }) => {
                 size={15}
                 name="map-pin"
               />
-              <ThemeText>{route.name}</ThemeText>
+              <ThemeText>{route.name.split("@")[0]}</ThemeText>
             </TouchableOpacity>
           )
         );
