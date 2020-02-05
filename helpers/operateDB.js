@@ -3,6 +3,7 @@ import {
   WEATHERAPP_DB,
   CITIES_DB_URL,
   FAV_TABLE,
+  CONFIG_TABLE,
 } from "react-native-dotenv";
 import * as FileSystem from "expo-file-system";
 import * as SQLite from "expo-sqlite";
@@ -80,4 +81,22 @@ export const deleteFavorite = id => {
   });
 };
 
-export const getAllFavorites = () => {};
+export const getAllFavorites = () => {
+  return new Promise((resolve, reject) => {
+    main_db.transaction(tx => {
+      tx.executeSql(
+        `SELECT * FROM ${FAV_TABLE}`,
+        [],
+        (tx, { rows }) => {
+          const favs = rows._array;
+          resolve(
+            favs.map(fav => {
+              return { ...fav, fav: true };
+            })
+          );
+        },
+        reject
+      );
+    });
+  });
+};
