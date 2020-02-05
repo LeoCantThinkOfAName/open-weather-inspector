@@ -14,6 +14,9 @@ import initialize from "../helpers/initialize";
 
 // reducer
 import { ADD_WEATHER_DATA } from "../reducers/cacheReducer";
+import { ALL_FAVORITES } from "../reducers/favorite/favoriteType";
+import { TOGGLE_THEME } from "../reducers/theme/themeType";
+import { TOGGLE_UNIT } from "../reducers/setting/settingType";
 
 const Drawer = createDrawerNavigator();
 
@@ -28,11 +31,23 @@ const DrawerScreen = () => {
     return (
       <AppLoading
         startAsync={async () => {
-          const initData = await initialize(favorites);
-          setCurrent(initData.current);
+          const initData = await initialize();
+          setCurrent(initData.currentWeather);
+          dispatch({
+            type: ALL_FAVORITES,
+            payload: initData.favoritesCities,
+          });
           dispatch({
             type: ADD_WEATHER_DATA,
-            payload: [initData.current, ...initData.favorites],
+            payload: [initData.currentWeather, ...initData.favoritesWeather],
+          });
+          dispatch({
+            type: TOGGLE_UNIT,
+            payload: initData.unit,
+          });
+          dispatch({
+            type: TOGGLE_THEME,
+            payload: initData.theme,
           });
         }}
         onFinish={() => setReady(true)}
@@ -80,7 +95,7 @@ const DrawerScreen = () => {
         />
         {favorites.map(favorite => (
           <Drawer.Screen
-            name={favorite.city}
+            name={`${favorite.city}@${favorite.id}`}
             component={HomeScreen}
             key={favorite.id}
             initialParams={{
