@@ -24,7 +24,7 @@ const FavButton = ({ route, data, navigation }) => {
   useEffect(() => {
     if (faved) {
       navigation.closeDrawer();
-      navigation.jumpTo(city);
+      navigation.jumpTo(`${city}@${id}`);
     }
 
     if (route.name !== "Current Location" && !faved) {
