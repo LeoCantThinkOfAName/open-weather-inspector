@@ -4,6 +4,8 @@ import {
   requestLocation,
 } from "../helpers/requestPermission";
 import fetchData from "../helpers/fetchData";
+import { getAllFavorites } from "../helpers/operateDB";
+import { getDataInAS } from "./asyncStorage";
 
 const fetchFavorites = async favs => {
   const temp = [];
@@ -12,34 +14,52 @@ const fetchFavorites = async favs => {
     const favWeather = await fetchData({ id: favs[i].id });
     temp.push(favWeather);
   }
-
   return temp;
 };
 
-const initialize = async favs => {
+const getPermission = async () => {
   const permission = await requestPermission({
     permissionType: Permission.LOCATION,
     errorMessage: "Permission for access location was denied",
   });
-  let current = null;
 
-  if (permission.success) {
+  return permission;
+};
+
+const booleanConverter = str => {
+  return str === "true" ? true : false;
+};
+
+const getUserSetting = async () => {
+  const unit = await getDataInAS("unit");
+  const theme = await getDataInAS("theme");
+
+  return { unit: booleanConverter(unit), theme: booleanConverter(theme) };
+};
+
+const initialize = async favs => {
+  try {
+    const permission = await getPermission();
     const req = await requestLocation();
+    const currentCoords = req.coords;
+    const currentWeather = await fetchData({
+      lat: currentCoords.latitude,
+      lon: currentCoords.longitude,
+    });
+    const favoritesCities = await getAllFavorites();
+    const favoritesWeather = await fetchFavorites(favoritesCities);
+    const { unit, theme } = await getUserSetting();
 
-    if (req.coords) {
-      current = await fetchData({
-        lat: req.coords.latitude,
-        lon: req.coords.longitude,
-      });
-    }
+    return {
+      currentWeather,
+      favoritesWeather,
+      favoritesCities,
+      theme,
+      unit,
+    };
+  } catch (error) {
+    console.log("Error Occured: ", error);
   }
-
-  const favorites = await fetchFavorites(favs);
-
-  return {
-    current,
-    favorites,
-  };
 };
 
 export default initialize;
