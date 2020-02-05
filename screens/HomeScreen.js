@@ -9,7 +9,6 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { useSelector } from "react-redux";
 import { CommonActions } from "@react-navigation/native";
-import * as SQLite from "expo-sqlite";
 
 // custom hooks
 // import useFetch from "../helpers/useFetch";
