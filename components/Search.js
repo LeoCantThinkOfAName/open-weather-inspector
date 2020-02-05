@@ -10,7 +10,7 @@ import Spinner from "./Spinner";
 
 // helpers
 import hexToRgb from "../helpers/hexToRgb";
-import searchCity from "../helpers/searchCity";
+import searchCity from "../helpers/operateDB";
 
 // reducer
 import { ADD_WEATHER_DATA } from "../reducers/cacheReducer";

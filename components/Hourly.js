@@ -17,6 +17,9 @@ import styles from "../styles/main";
 
 const Hourly = ({ days }) => {
   const { theme } = useSelector(state => state);
+  const {
+    setting: { unit },
+  } = useSelector(state => state);
 
   const convertDate = date => {
     const hour = new Date(date * 1000).getHours();
@@ -51,7 +54,10 @@ const Hourly = ({ days }) => {
                   }}
                 />
                 <ThemeText>
-                  {tempConverter({ unit: "c", temp: item.temp.main })}
+                  {tempConverter({
+                    unit: unit ? "c" : "f",
+                    temp: item.temp.main,
+                  })}
                 </ThemeText>
               </View>
             );

@@ -15,6 +15,9 @@ import styles from "../styles/main";
 
 const CurrentWeather = ({ temp, weather }) => {
   const { theme } = useSelector(state => state);
+  const {
+    setting: { unit },
+  } = useSelector(state => state);
   const [animateTemp] = useState(new Animated.Value(0));
 
   useEffect(() => {
@@ -32,7 +35,7 @@ const CurrentWeather = ({ temp, weather }) => {
             <ThemeText style={styles.conditionTempLabel}>HIGH</ThemeText>
             <ThemeText style={styles.conditionTemp}>
               {tempConverter({
-                unit: "c",
+                unit: unit ? "c" : "f",
                 temp: temp.high,
               })}
             </ThemeText>
@@ -41,7 +44,7 @@ const CurrentWeather = ({ temp, weather }) => {
             <ThemeText style={styles.conditionTempLabel}>LOW</ThemeText>
             <ThemeText style={styles.conditionTemp}>
               {tempConverter({
-                unit: "c",
+                unit: unit ? "c" : "f",
                 temp: temp.low,
               })}
             </ThemeText>
@@ -61,7 +64,7 @@ const CurrentWeather = ({ temp, weather }) => {
         </View>
         <ThemeText style={styles.mainTemp}>
           {tempConverter({
-            unit: "c",
+            unit: unit ? "c" : "f",
             temp: temp.main,
           })}
         </ThemeText>

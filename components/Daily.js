@@ -21,6 +21,9 @@ const TableHead = ({ text }) => {
 
 const Daily = ({ days }) => {
   const { theme } = useSelector(state => state);
+  const {
+    setting: { unit },
+  } = useSelector(state => state);
 
   const calculateAverage = dayObj => {
     const reduced = dayObj.data.reduce((prev, current) => {
@@ -76,7 +79,7 @@ const Daily = ({ days }) => {
             </ThemeText>
             <ThemeText style={[styles.textCenter, styles.flexSpan]}>
               {tempConverter({
-                unit: "c",
+                unit: unit ? "c" : "f",
                 temp: main,
               })}
             </ThemeText>
@@ -96,13 +99,13 @@ const Daily = ({ days }) => {
             />
             <ThemeText style={[styles.textCenter, styles.flexSpan]}>
               {tempConverter({
-                unit: "c",
+                unit: unit ? "c" : "f",
                 temp: high,
               })}
             </ThemeText>
             <ThemeText style={[styles.textCenter, styles.flexSpan]}>
               {tempConverter({
-                unit: "c",
+                unit: unit ? "c" : "f",
                 temp: low,
               })}
             </ThemeText>
