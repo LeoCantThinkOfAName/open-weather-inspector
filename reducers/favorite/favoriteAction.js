@@ -1,4 +1,8 @@
-import { insertFavorite, deleteFavorite } from "../../helpers/operateDB";
+import {
+  insertFavorite,
+  deleteFavorite,
+  getAllFavorites,
+} from "../../helpers/operateDB";
 import {
   ADD_FAVORITE,
   REMOVE_FAVORITE,
@@ -25,13 +29,6 @@ export const removeFavoriteFromDB = id => {
   };
 };
 
-export const getAllFavoritesFromDB = () => {
-  return async dispatch => {
-    const operation = null;
-    dispatch(getAllFavorites);
-  };
-};
-
 const addFavorite = cityData => {
   return {
     type: ADD_FAVORITE,
@@ -50,12 +47,5 @@ const resumeFav = id => {
   return {
     type: RESUME_FAV,
     payload: id,
-  };
-};
-
-const getAllFavorites = favorites => {
-  return {
-    type: GET_ALL_FAVORITES,
-    payload: favorites,
   };
 };

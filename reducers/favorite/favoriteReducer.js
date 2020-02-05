@@ -1,7 +1,7 @@
 import {
   ADD_FAVORITE,
   REMOVE_FAVORITE,
-  GET_ALL_FAVORITES,
+  ALL_FAVORITES,
   RESUME_FAV,
 } from "./favoriteType";
 
@@ -15,7 +15,7 @@ export const favoritesReducer = (state = initialState, action) => {
       return state.map(city =>
         city.id === action.payload ? { ...city, fav: false } : city
       );
-    case GET_ALL_FAVORITES:
+    case ALL_FAVORITES:
       return [...action.payload];
     case RESUME_FAV:
       return [
