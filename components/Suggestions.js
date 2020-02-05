@@ -12,6 +12,9 @@ import { ADD_WEATHER_DATA } from "../reducers/cacheReducer";
 import hexToRgb from "../helpers/hexToRgb";
 import fetchData from "../helpers/fetchData";
 
+// styles
+import styles from "../styles/main";
+
 const Suggestions = ({ cities, setText, setCities, theme, navigation }) => {
   const { cache } = useSelector(state => state);
   const dispatch = useDispatch();
@@ -47,15 +50,7 @@ const Suggestions = ({ cities, setText, setCities, theme, navigation }) => {
 
   return (
     <SafeAreaView
-      style={{
-        position: "absolute",
-        backgroundColor: theme.black,
-        top: 60,
-        maxHeight: 300,
-        left: 0,
-        width: 280,
-        zIndex: 100,
-      }}
+      style={[styles.suggestionList, { backgroundColor: theme.black }]}
     >
       <ScrollView persistentScrollbar={true}>
         {cities.map((city, index) => (
@@ -64,15 +59,15 @@ const Suggestions = ({ cities, setText, setCities, theme, navigation }) => {
             onPress={() =>
               handlePress(`${city.name}, ${city.country}`, city.id)
             }
-            style={{
-              height: 60,
-              justifyContent: "center",
-              paddingHorizontal: 15,
-              backgroundColor:
-                index % 2
-                  ? hexToRgb(theme.white, 0.95)
-                  : hexToRgb(theme.white, 0.98),
-            }}
+            style={[
+              styles.suggestionItem,
+              {
+                backgroundColor:
+                  index % 2
+                    ? hexToRgb(theme.white, 0.95)
+                    : hexToRgb(theme.white, 0.98),
+              },
+            ]}
           >
             <View>
               <ThemeText>
