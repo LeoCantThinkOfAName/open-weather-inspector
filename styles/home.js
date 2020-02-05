@@ -25,7 +25,7 @@ export default {
   mainTemp: {
     textAlign: "right",
     fontSize: Dimensions.get("screen").width / 3,
-    letterSpacing: -Dimensions.get("screen").width / 30,
+    letterSpacing: -Dimensions.get("screen").width / 50,
   },
   conditionWrapper: {
     flexDirection: "row",

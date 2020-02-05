@@ -15,4 +15,21 @@ export default {
     right: 10,
     top: 20,
   },
+  suggestionWrapper: {
+    minHeight: 300,
+  },
+  suggestionList: {
+    position: "absolute",
+    top: 60,
+    maxHeight: 300,
+    left: 0,
+    width: 280,
+    zIndex: 100,
+  },
+  suggestionItem: {
+    height: 60,
+    justifyContent: "center",
+    paddingHorizontal: 15,
+    marginTop: -1,
+  },
 };
