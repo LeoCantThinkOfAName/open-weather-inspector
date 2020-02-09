@@ -1,5 +1,6 @@
 import React from "react";
 import { View, ScrollView } from "react-native";
+import { useSelector } from "react-redux";
 
 // components
 import CreditItem from "../components/CreditItem";
@@ -58,29 +59,35 @@ const credits = [
 ];
 
 const CreditScreen = () => {
+  const { theme } = useSelector(state => state);
+
   return (
     <Wrapper>
       <Background source={require("../assets/sky.jpg")} />
-      <View style={styles.container}>
-        <Logo height={200} width={200} />
-        <ThemeText>
-          Weather Inspector is a Harvard CS50 Mobile Project
-        </ThemeText>
-        <ThemeText>
-          Made By{" "}
-          <ThemeText
-            style={styles.link}
-            onPress={() => openLink("https://google.com")}
-          >
-            LCTOAN.
-          </ThemeText>
-        </ThemeText>
-        <ThemeText style={styles.heading}>Images:</ThemeText>
-        <ScrollView style={styles.listWrapper}>
-          {credits.map(credit => (
-            <CreditItem credit={credit} key={credit.url} />
-          ))}
-        </ScrollView>
+      <View style={styles.creditWrapper}>
+        <View style={styles.alignCenter}>
+          <View style={[styles.alignCenter, styles.dialog]}>
+            <Logo width={150} fill={theme.black} />
+            <ThemeText>
+              Weather Inspector is a Harvard CS50 Mobile Project
+            </ThemeText>
+            <ThemeText>
+              Made By{" "}
+              <ThemeText
+                style={styles.link}
+                onPress={() => openLink("https://google.com")}
+              >
+                LCTOAN.
+              </ThemeText>
+            </ThemeText>
+          </View>
+          <ThemeText style={styles.heading}>Images:</ThemeText>
+          <ScrollView style={styles.listWrapper}>
+            {credits.map(credit => (
+              <CreditItem credit={credit} key={credit.url} />
+            ))}
+          </ScrollView>
+        </View>
       </View>
     </Wrapper>
   );

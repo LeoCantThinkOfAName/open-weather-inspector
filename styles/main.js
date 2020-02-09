@@ -62,6 +62,13 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
   },
+  creditWrapper: {
+    alignSelf: "stretch",
+    justifyContent: "center",
+    flex: 1,
+    maxHeight: Dimensions.get("screen").height - 200,
+    marginVertical: 100,
+  },
   section: {
     marginBottom: 20,
   },
