@@ -37,7 +37,7 @@ export const fetchCitiesData = async () => {
   }
 };
 
-const searchCity = async input => {
+export const searchCity = async input => {
   return new Promise((resolve, reject) => {
     cities_db.transaction(tx => {
       tx.executeSql(
